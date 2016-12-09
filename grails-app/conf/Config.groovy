@@ -2,7 +2,7 @@ import org.apache.log4j.Level
 
 grails.project.groupId = "uk.org.nbn.atlas" // change this to alter the default package name and Maven publishing destination
 
-grails.appName = "nbn-bie"
+appName = "nbn-bie"
 
 default_config = "/data/${appName}/config/${appName}-config.properties"
 if(!grails.config.locations || !(grails.config.locations instanceof List)) {
