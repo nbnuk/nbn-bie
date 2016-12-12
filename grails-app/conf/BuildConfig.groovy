@@ -17,6 +17,11 @@ grails.project.fork = [
         console: forkConfig // configure settings for the Swing console JVM ]
 ]
 
+grails.project.dependency.distribution = {
+    remoteRepository(id:"uk-nbn-snapshots", url:"http://repository.gbif.org/content/repositories/uk-nbn-snapshots")
+    remoteRepository(id:"uk-nbn-releases", url:"http://repository.gbif.org/content/repositories/uk-nbn-releases")
+}
+
 grails.project.dependency.resolver = "maven" // or ivy
 grails.project.dependency.resolution = {
     // inherit Grails' default dependencies
