@@ -49,7 +49,7 @@ grails.project.dependency.resolution = {
         // plugins for the build system only
         build ":tomcat:7.0.55"
         compile ':cache:1.1.8'
-        compile ':bie-plugin:1.2.2-SNAPSHOT'
+        compile ':bie-plugin:1.2.4-SNAPSHOT'
         compile ':ala-bootstrap3:1.6.2'
         compile ":build-info:1.2.6"
         runtime ":ala-admin-plugin:1.2"

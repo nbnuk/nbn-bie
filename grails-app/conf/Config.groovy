@@ -21,10 +21,10 @@ println "default_config = ${default_config}"
 skin.layout = "ala"
 skin.orgNameLong = "Atlas of Living Australia"
 skin.fluidLayout = false
-bie.baseURL = "http://localhost:8080/ala-bie"
+bie.baseURL = "http://localhost:8080/${appName}"
 bie.searchPath = "/search"
 bie.index.url = "http://localhost:8090/bie-index"
-grails.serverURL = "http://localhost:8091/ala-bie"
+grails.serverURL = "http://localhost:8091/${appName}"
 facets = "idxtype,rank,speciesGroup,locatedInHubCountry,imageAvailable,conservationStatusAUS_s,conservationStatusACT_s,conservationStatusNSW_s,conservationStatusQLD_s,conservationStatusVIC_s,conservationStatusTAS_s,conservationStatusSA_s,conservationStatusWA_s,conservationStatusNT_s"
 
 
