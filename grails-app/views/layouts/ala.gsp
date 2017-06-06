@@ -34,8 +34,14 @@
 <!-- Container -->
 
 <div class="${fluidLayout ? 'container-fluid' : 'container'}" id="main">
-    <ala:systemMessage/>
-    <g:layoutBody />
+    %{--<section class="content-container">--}%
+        %{--<div class="row">--}%
+            %{--<article class="col-md-12 header-wrap margin-bottom-half-1">--}%
+                <ala:systemMessage/>
+                <g:layoutBody />
+            %{--</article>--}%
+        %{--</div>--}%
+    %{--</section>--}%
 </div><!-- End container #main col -->
 
 <!-- Footer -->
