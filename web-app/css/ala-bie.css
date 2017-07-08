@@ -1,7 +1,7 @@
 /** Temporary CSS hacks - awaiting review by Adam */
 
 p,li,ul{ font-size:15px;font-weight:200;line-height:1.6em; }
-#main { padding: 50px 0 15px 0; }
+/*#main { padding: 50px 0 15px 0; }*/
 a i {  }
 .header-inner h1 { margin-bottom: 10px; }
 .header-inner h2 { font-size: 28px; margin-bottom: 10px; }

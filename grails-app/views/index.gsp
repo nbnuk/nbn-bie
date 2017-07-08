@@ -2,7 +2,8 @@
 <html>
 <head>
     <meta name="layout" content="${grailsApplication.config.skin.layout}"/>
-    <title>Biodiversity Information Explorer</title>
+    <meta name="breadcrumb" content="Search"/>
+    <title>${grailsApplication.config.skin?.orgNameLong} - Search</title>
 </head>
 <body class="page-search">
 
