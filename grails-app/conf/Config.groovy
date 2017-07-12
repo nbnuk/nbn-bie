@@ -20,13 +20,14 @@ println "default_config = ${default_config}"
 
 skin.layout = "ala"
 skin.orgNameLong = "Atlas of Living Australia"
+skin.orgNameShort = "ALA"
 skin.fluidLayout = false
 bie.baseURL = "http://localhost:8080/ala-bie"
 bie.searchPath = "/search"
 bie.index.url = "http://localhost:8090/bie-index"
 grails.serverURL = "http://localhost:8091/ala-bie"
 facets = "idxtype,rank,speciesGroup,locatedInHubCountry,imageAvailable,conservationStatusAUS_s,conservationStatusACT_s,conservationStatusNSW_s,conservationStatusQLD_s,conservationStatusVIC_s,conservationStatusTAS_s,conservationStatusSA_s,conservationStatusWA_s,conservationStatusNT_s"
-
+speciesParent = "https://lists.ala.org.au/iconic-species"
 
 // The ACCEPT header will not be used for content negotiation for user agents containing the following strings (defaults to the 4 major rendering engines)
 grails.mime.disable.accept.header.userAgents = ['Gecko', 'WebKit', 'Presto', 'Trident']
