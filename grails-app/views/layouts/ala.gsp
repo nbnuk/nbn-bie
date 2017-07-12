@@ -31,11 +31,38 @@
 <!-- Header -->
 <hf:banner logoutUrl="${g.createLink(controller:"logout", action:"logout", absolute: true)}" />
 <!-- End header -->
-<!-- Container -->
+<!-- Breadcrumb -->
+<section id="breadcrumb">
+    <div class="container">
+        <div class="row">
+            <ul class="breadcrumb-list">
+                <li><a href="https://www.ala.org.au/">Home</a></li>
+                <g:if test="${pageProperty(name:'meta.breadcrumbParent')}">
+                    <g:set value="${pageProperty(name:'meta.breadcrumbParent').tokenize(',')}" var="parentArray"/>
+                    <li><span class="glyphicon glyphicon-menu-right"></span><a href="${parentArray[0]}">${parentArray[1]}</a></li>
+                </g:if>
+                <g:if test="${pageProperty(name:'meta.breadcrumb')}">
+                    <li class="active"><span class="glyphicon glyphicon-menu-right"></span>${pageProperty(name:'meta.breadcrumb')}</li>
+                </g:if>
+                <g:else>
+                    <li class="active"><span class="glyphicon glyphicon-menu-right"></span>${pageProperty(name:'title')}</li>
+                </g:else>
+            </ul>
+        </div>
+    </div>
+</section>
 
+<!-- End Breadcrumb -->
+<!-- Container -->
 <div class="${fluidLayout ? 'container-fluid' : 'container'}" id="main">
-    <ala:systemMessage/>
-    <g:layoutBody />
+    %{--<section class="content-container">--}%
+        %{--<div class="row">--}%
+            %{--<article class="col-md-12 header-wrap margin-bottom-half-1">--}%
+                <ala:systemMessage/>
+                <g:layoutBody />
+            %{--</article>--}%
+        %{--</div>--}%
+    %{--</section>--}%
 </div><!-- End container #main col -->
 
 <!-- Footer -->
