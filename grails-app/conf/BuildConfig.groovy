@@ -3,8 +3,8 @@ grails.project.class.dir = "target/classes"
 grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
 grails.project.work.dir = "target/work"
-grails.project.target.level = 1.6
-grails.project.source.level = 1.6
+grails.project.target.level = 1.8
+grails.project.source.level = 1.8
 
 //grails.plugin.location."bie-plugin" = "../bie-plugin"
 //grails.plugin.location."ala-bootstrap3" = "../ala-bootstrap3"
@@ -35,7 +35,11 @@ grails.project.dependency.resolution = {
         }
     }
 
-    dependencies {}
+    dependencies {
+        compile ('org.jasig.cas.client:cas-client-core:3.4.1') {
+            excludes([group: 'javax.servlet', name: 'servlet-api'])
+        }
+    }
 
     plugins {
         build(":release:3.0.1", ":rest-client-builder:2.0.3") {
@@ -43,14 +47,13 @@ grails.project.dependency.resolution = {
         }
         // plugins for the build system only
         build ":tomcat:7.0.55"
-        compile ':bie-plugin:1.3.3'
+        compile ':bie-plugin:1.3.4-SNAPSHOT'
         compile ":cache:1.1.8"
-        compile ":cache-headers:1.1.6"
-        runtime ":resources:1.2.8"
-        runtime ":cached-resources:1.0"
-        compile ':ala-bootstrap3:1.6.3'
-        runtime ":ala-admin-plugin:1.2"
-        runtime(":ala-auth:1.3.4") {
+        //compile ":cache-headers:1.1.6"
+        //runtime ":ala-admin-plugin:1.2"
+        compile ":asset-pipeline:2.14.1"
+        runtime ":ala-bootstrap3:2.0.0-SNAPSHOT"
+        runtime(":ala-auth:2.2-SNAPSHOT") {
             excludes "servlet-api"
         }
     }
