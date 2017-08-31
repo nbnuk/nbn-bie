@@ -49,8 +49,8 @@ grails.project.dependency.resolution = {
         build ":tomcat:7.0.55"
         compile ':bie-plugin:1.3.4-SNAPSHOT'
         compile ":cache:1.1.8"
-        //compile ":cache-headers:1.1.6"
-        //runtime ":ala-admin-plugin:1.2"
+        compile ":cache-headers:1.1.6"
+        runtime ":ala-admin-plugin:1.2"
         compile ":asset-pipeline:2.14.1"
         runtime ":ala-bootstrap3:2.0.0-SNAPSHOT"
         runtime(":ala-auth:2.2-SNAPSHOT") {
