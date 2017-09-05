@@ -211,3 +211,5 @@ admin_role: ROLE_ADMIN
 allowedImageEditingRoles: ROLE_ADMIN
 additionalMapFilter:
 synonymsTypes: synonym
+show:
+  tabs: overview,gallery,names,classification,records,literature,sequences,data-partners
