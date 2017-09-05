@@ -1,6 +1,6 @@
 <g:set var="orgNameLong" value="${grailsApplication.config.skin.orgNameLong}"/>
 <g:set var="orgNameShort" value="${grailsApplication.config.skin.orgNameShort}"/>
-<g:applyLayout name="main">
+<g:applyLayout name="ala-main">
     <head>
         <title><g:layoutTitle/></title>
         <meta name="breadcrumb" content="${pageProperty(name: 'meta.breadcrumb', default: pageProperty(name: 'title').split('\\|')[0].decodeHTML())}"/>
