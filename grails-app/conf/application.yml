@@ -39,6 +39,8 @@ grails:
             - file:///data/ala-bie/config/ala-bie-config.properties
             - file:///data/ala-bie/config/ala-bie-config.yml
             - file:///data/ala-bie/config/ala-bie-config.groovy
+    cors:
+        enabled: true
     mime:
         disable:
             accept:
@@ -152,10 +154,12 @@ map:
         domain: abcd
         colour: e6704c
     simpleMapButton: false
+    records:
+      colour: e6704c
 bieService:
   queryContext:
 googleMapsApiKey: AIzaSyB0HIkSCV2EdkG50uM7s96IEbO6wUHTqy0
-languageCodesUrl: /languages.json
+languageCodesUrl: file:///data/ala-bie/config/languages.json
 geocode.querySuffix:
 occurrenceCounts:
     enabled: true
@@ -164,5 +168,14 @@ admin_role: ROLE_ADMIN
 allowedImageEditingRoles: ROLE_ADMIN
 additionalMapFilter:
 synonymsTypes: synonym
+literature:
+    bhl:
+        url: https://bhlidx.ala.org.au/select
+    genbank:
+        url: https://www.ncbi.nlm.nih.gov
+    scholar:
+        url: https://scholar.google.com
+    trove:
+        url: https://api.trove.nla.gov.au/result?key=fvt2q0qinduian5d&zone=book&encoding=json
 show:
-  tabs: overview,gallery,names,classification,records,literature,sequences,data-partners
+    tabs: overview,gallery,names,classification,records,literature,sequences,data-partners
