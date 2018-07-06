@@ -2,15 +2,17 @@
 <html>
 <head>
     <meta name="layout" content="${grailsApplication.config.skin.layout}"/>
-    <meta name="breadcrumb" content="Search"/>
-    <title>${grailsApplication.config.skin?.orgNameLong} - Search</title>
+    <meta name="breadcrumb" content=""/> <!-- defaults to title below -->
+    <title>Species search | ${grailsApplication.config.skin?.orgNameLong}</title>
 </head>
+
+
 <body class="page-search">
 
 <section class="container">
 
     <header class="pg-header">
-        <h1>Search the Atlas of Living Australia</h1>
+        <h1>Search for taxa</h1>
     </header>
 
     <div class="section">

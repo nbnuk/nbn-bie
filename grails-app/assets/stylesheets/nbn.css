@@ -1,0 +1,50 @@
+
+/* NBN: align styling with pre-Grails 3 version of BIE */
+#breadcrumb {
+    display:none
+}
+
+.pg-header {
+    margin-top: 40px;
+    padding-bottom: 20px;
+}
+
+.pg-header h1 {
+    font-size: 30px;
+}
+
+#main {
+    padding-left: 0px;
+}
+
+.taxon-tabs .tab-content {
+    border: none;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 15px;
+}
+
+.tab-content .tab-pane {
+    padding: 0px;
+}
+
+.chart.data_provider_uid-chart {
+    width: 100% !important;
+}
+.chart.data_resource_uid-chart {
+    width: 100% !important;
+}
+
+/** Charts **/
+.chart.cl14-chart { width:100% !important; }
+
+.chart.cl16-chart { width:100% !important; }
+
+.species-headline-dr1818 { color: red; font-weight: bold }
+
+#conservationevidence_widget .nbn-study-count {
+    font-style: italic;
+    margin-top: 1em;
+    margin-left: 4em;
+    display: inline-block;
+}

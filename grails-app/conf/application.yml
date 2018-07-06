@@ -2,7 +2,7 @@
 grails:
     profile: web
     codegen:
-        defaultPackage: au.org.ala.bie
+        defaultPackage: uk.org.nbn.atlas.bie # RR au.org.ala.bie
     spring:
         transactionManagement:
             proxies: false
@@ -16,7 +16,7 @@ grails:
             events: false
 info:
     app:
-        name: '@info.app.name@'
+        name: nbn-bie # ala-bie
         version: '@info.app.version@'
         grailsVersion: '@info.app.grailsVersion@'
 spring:
@@ -36,9 +36,9 @@ endpoints:
 grails:
     config:
         locations:
-            - file:///data/ala-bie/config/ala-bie-config.properties
-            - file:///data/ala-bie/config/ala-bie-config.yml
-            - file:///data/ala-bie/config/ala-bie-config.groovy
+            - file:///data/nbn-bie/config/nbn-bie-config.properties
+            - file:///data/nbn-bie/config/nbn-bie-config.yml
+            - file:///data/nbn-bie/config/nbn-bie-config.groovy
     cors:
         enabled: true
     mime:
@@ -97,12 +97,12 @@ endpoints:
 ---
 #Required so that the gbif-ecat library does not bugger up initialisation from its internal application.properties
 app:
-  name: ala-bie
+  name: nbn-bie
   dataDir: /tmp/gbif-ecat
 skin:
-  layout: ala
-  orgNameLong: Atlas of Living Australia
-  orgNameShort: ALA
+  layout: generic
+  orgNameLong: NBN Atlas
+  orgNameShort: Atlas
   fluidLayout: false
 bie:
   baseURL: http://localhost:8080
@@ -112,8 +112,8 @@ bie:
 facets: idxtype,rank,speciesGroup,locatedInHubCountry,imageAvailable,conservationStatusAUS_s,conservationStatusACT_s,conservationStatusNSW_s,conservationStatusQLD_s,conservationStatusVIC_s,conservationStatusTAS_s,conservationStatusSA_s,conservationStatusWA_s,conservationStatusNT_s
 speciesParent: https://lists.ala.org.au/iconic-species
 serverName: http://dev.ala.org.au:8080
-projectNameShort: Atlas
-projectName: Atlas of Living Australia
+projectNameShort: NBN Atlas
+projectName: National Biodiversity Network
 biocache:
     baseURL: "http://biocache.ala.org.au"
 biocacheService:
@@ -124,7 +124,7 @@ spatial:
 layersService:
     baseURL: http://spatial.ala.org.au/ws
 ala:
-    baseURL: http://www.ala.org.au
+    baseURL: https://nbnatlas.org
 collectory:
     baseURL: http://collections.ala.org.au
     threatenedSpeciesCodesUrl: http://collections.ala.org.au/public/showDataResource
@@ -156,10 +156,26 @@ map:
     simpleMapButton: false
     records:
       colour: e6704c
+    env:
+    #  legendtitle: Licence # legend title (this might be retrievable from messages.properties or from https://records-ws.nbnatlas.org/facets/i18n[locale].properties, but included here for simplicity)
+    #if using automatic legend from biocache then add colormode and legendhidemaxrange option
+    #  options: colormode:license,CC-BY,CC-BY-NC,CC0,OGC;name:circle;size:4;opacity:0.8
+    #  legendhidemaxrange: false  #hide upper limit of cutpoints on map legend
+
+
+    #if using custom legend add layerfq options, labels and colours (same number of each and | delimited)
+       options: name:circle;size:4;opacity:0.8
+    #layers:
+    #  fqs: license:("CC-BY" OR "CC-BY-NC")|license:CC0
+    #  labels: CC-BY*|CC0
+    #  colours: E6704C|FFC0CB
+
+
+
 bieService:
   queryContext:
 googleMapsApiKey: AIzaSyB0HIkSCV2EdkG50uM7s96IEbO6wUHTqy0
-languageCodesUrl: file:///data/ala-bie/config/languages.json
+languageCodesUrl: file:///data/nbn-bie/config/languages.json
 geocode.querySuffix:
 occurrenceCounts:
     enabled: true
