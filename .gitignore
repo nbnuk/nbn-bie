@@ -3,3 +3,7 @@ target/*
 .idea/*
 .slcache/*
 *.iml
+.DS_Store
+build*
+.gradle*
+out/*
