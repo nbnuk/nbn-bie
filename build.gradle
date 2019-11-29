@@ -32,7 +32,7 @@ if (inplace) {
             compile project(':bie-plugin')
             compile project(':ala-charts-plugin')
             compile project(':images-client-plugin')
-            //compile project(':ala-bootstrap3') 
+            compile project(':ala-bootstrap3')
         }
     }
 }

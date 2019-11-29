@@ -21,7 +21,7 @@
                 <form id="search-inpage" action="search" method="get" name="search-form">
                     <div class="input-group">
                         <input id="taxaFilter" name="fq" type="hidden" value="idxtype:TAXON">
-                        <input id="search" class="form-control ac_input general-search" name="q" type="text" placeholder="Search the Atlas" autocomplete="off">
+                        <input id="search" class="form-control ac_input general-search" name="q" type="text" placeholder="Search the Atlas" autocomplete="on">
                         <span class="input-group-btn">
                             <input type="submit" class="form-control btn btn-primary" alt="Search" value="Search">
                         </span>

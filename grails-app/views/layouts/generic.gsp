@@ -5,7 +5,9 @@
         <script type="text/javascript">
             var BIE_VARS = { "autocompleteUrl" : "${grailsApplication.config.bie.index.url}/search/auto.jsonp"}
         </script>
+        <asset:javascript src="autocomplete-configuration.js"/>
         <link rel="stylesheet" href="/assets/nbn.css?compile=false" />
+        <link rel="stylesheet" href="/assets/autocomplete.css?compile=false" />
         <g:if test="${grailsApplication.config?.nbn?.inns == 'true'}">
             <style>
                 li.menu-item.menu-species {
