@@ -7,3 +7,5 @@ target/*
 build*
 .gradle*
 out/*
+*.log
+*.war
