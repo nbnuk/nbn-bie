@@ -4,6 +4,7 @@
     <meta name="layout" content="${grailsApplication.config.skin.layout}"/>
     <meta name="breadcrumb" content=""/> <!-- defaults to title below -->
     <title>Species search | ${grailsApplication.config.skin?.orgNameLong}</title>
+    <link rel="stylesheet" href="/assets/autocomplete.css?compile=false" />
 </head>
 
 
