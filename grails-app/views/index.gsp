@@ -28,6 +28,7 @@
                         </span>
                     </div>
                 </form>
+                <small class="text-muted">Enter text and click the search button to return a list of matched names in alphabetical order by scientific name. Wildcard searches (*) are possible. Alternatively selecting a name from the list will take you directly to the information that we hold for the selected taxon. Selecting a synonym will take you to the recommended accepted name.</small>
             </div>
         </div>
     </div>
