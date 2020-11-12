@@ -178,7 +178,7 @@ googleMapsApiKey: AIzaSyB0HIkSCV2EdkG50uM7s96IEbO6wUHTqy0
 languageCodesUrl: file:///data/nbn-bie/config/languages.json
 geocode.querySuffix:
 occurrenceCounts:
-    enabled: true
+    field: occurrenceCount
 additionalResultsFields: kingdom
 admin_role: ROLE_ADMIN
 allowedImageEditingRoles: ROLE_ADMIN
