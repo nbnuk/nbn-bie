@@ -2,10 +2,9 @@ package uk.org.nbn.bie
 
 import au.org.ala.bie.webapp2.SearchRequestParamsDTO
 import grails.converters.JSON
-import grails.transaction.Transactional
 import org.apache.commons.httpclient.util.URIUtil
 
-@Transactional
+
 class BieService extends au.org.ala.bie.BieService{
 
     //legacy, not used - for FFTF, as we slightly customised the method but it is legacy, it was copied to nbn
