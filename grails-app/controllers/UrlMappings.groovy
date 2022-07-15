@@ -12,6 +12,7 @@ class UrlMappings {
         } else {
             "/"(view: "/index")
         }
+        "/occurrences"(controller: "species", action: "occurrences") // RR added
         "500"(view:'/error')
         "404"(view:'/notFound')
     }
