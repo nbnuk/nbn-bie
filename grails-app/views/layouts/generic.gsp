@@ -24,6 +24,7 @@
         <g:layoutHead/>
 
         <hf:head />
+        <script src="/assets/nbn/application.js" ></script>
     </head>
     <body class="${pageProperty(name:'body.class')}" id="${pageProperty(name:'body.id')}" onload="${pageProperty(name:'body.onload')}">
 
