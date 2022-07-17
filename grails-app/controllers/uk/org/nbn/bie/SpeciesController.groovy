@@ -3,11 +3,11 @@ package uk.org.nbn.bie
 import au.org.ala.bie.webapp2.SearchRequestParamsDTO
 import groovy.json.JsonSlurper
 import org.apache.commons.lang.WordUtils
-import org.apache.commons.lang.StringUtils
 import org.grails.web.json.JSONObject
 
 class SpeciesController extends au.org.ala.bie.SpeciesController{
 
+    //NOTE: these have been extracted from the superlass in FFTF. At some point they need looking at and changed
     def allResultsGuids = []
     def allResultsOccs = 0
     def allResultsOccsNoMapFilter = 0
