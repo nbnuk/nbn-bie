@@ -176,4 +176,112 @@ class SpeciesController extends au.org.ala.bie.SpeciesController{
             ])
         }
     }
+
+    /**
+     * Species page - display information about the requested taxa
+     *
+     * TAXON: a taxon is 'any group or rank in a biological classification in which organisms are related.'
+     * It is also any of the taxonomic units. So basically a taxon is a catch-all term for any of the
+     * classification rankings; i.e. domain, kingdom, phylum, etc.
+     *
+     * TAXON CONCEPT: A taxon concept defines what the taxon means - a series of properties
+     * or details about what we mean when we use the taxon name.
+     *
+     */
+    def show = {
+        def guid = regularise(params.guid)
+
+        def taxonDetails = bieService.getTaxonConcept(guid)
+        log.debug "show - guid = ${guid} "
+
+        def recordsFilter = getRecordsFilter()
+
+        if (!taxonDetails) {
+            log.error "Error requesting taxon concept object: " + guid
+            response.status = 404
+            render(view: '../error', model: [message: "Requested taxon <b>" + guid + "</b> was not found"])
+        } else if (taxonDetails instanceof JSONObject && taxonDetails.has("error")) {
+            if (taxonDetails.error?.contains("FileNotFoundException")) {
+                log.error "Error requesting taxon concept object: " + guid
+                response.status = 404
+                render(view: '../error', model: [message: "Requested taxon <b>" + guid + "</b> was not found"])
+            } else {
+                log.error "Error requesting taxon concept object: " + taxonDetails.error
+                render(view: '../error', model: [message: taxonDetails.error])
+            }
+        } else if (taxonDetails.taxonConcept?.guid && taxonDetails.taxonConcept.guid != guid) {
+            // old identifier so redirect to current taxon page
+            redirect(uri: "/species/${taxonDetails.taxonConcept.guid}")
+
+        } else {
+            def synonymAllResultsOccs = -1
+
+            if (taxonDetails.taxonConcept.acceptedConceptID) {
+                def synonymOccsPresence = bieService.getOccurrenceCountsForGuid(taxonDetails.taxonConcept.acceptedConceptID, "presence", recordsFilter, true, false)
+                def synonymOccsAbsence = bieService.getOccurrenceCountsForGuid(taxonDetails.taxonConcept.acceptedConceptID, "absence", recordsFilter, true, false)
+                synonymAllResultsOccs = synonymOccsPresence + synonymOccsAbsence
+                if ((pageResultsOccsPresence == null) || (synonymOccsAbsence == null)) {
+                    synonymAllResultsOccs = 0
+                }
+            }
+
+            def pageResultsOccsPresence = bieService.getOccurrenceCountsForGuid(taxonDetails.taxonConcept.guid, "presence", recordsFilter, true, false)
+            def pageResultsOccsAbsence = bieService.getOccurrenceCountsForGuid(taxonDetails.taxonConcept.guid, "absence", recordsFilter, true, false)
+            def allResultsOccs = pageResultsOccsPresence + pageResultsOccsAbsence
+            if (pageResultsOccsPresence == null) {
+                pageResultsOccsPresence = -1
+                allResultsOccs = -1
+            }
+            if (pageResultsOccsAbsence == null) {
+                pageResultsOccsAbsence = -1
+                allResultsOccs = -1
+            }
+            def pageResultsOccs = allResultsOccs
+            def allResultsOccsNoMapFilter = 0
+            if ((grailsApplication.config?.species?.mapPresenceAndAbsence?:"") == "true") {
+                //have all info needed
+            } else {
+                //allResultsOccs = pageResultsOccs = bieService.getOccurrenceCountsForGuid(taxonDetails.taxonConcept.guid, "all", recordsFilter, true, false)
+                if (grailsApplication.config?.additionalMapFilter == "fq=occurrence_status:present" || grailsApplication.config?.additionalMapFilter == "fq=-occurrence_status:present") {
+                    //for these common options don't make *another* web service call
+                    allResultsOccsNoMapFilter = allResultsOccs
+                } else {
+                    allResultsOccsNoMapFilter = bieService.getOccurrenceCountsForGuid(taxonDetails.taxonConcept.guid, "all", recordsFilter, true, true)
+                    if (allResultsOccsNoMapFilter == null) allResultsOccsNoMapFilter = -1
+                }
+            }
+            def jsonSlurper = new JsonSlurper()
+            //fake up a search results JSON object to look like that returned for species search list jsonSlurper.parseText(
+            def searchResults = '{ "results": [{"occurrenceCount":"' + allResultsOccs + '", "guid":"' + taxonDetails.taxonConcept.guid + '", "scientificName":"notused"}] }'
+            def searchResultsPresence = '{ "results": [{"occurrenceCount":"' + pageResultsOccsPresence + '", "guid":"' + taxonDetails.taxonConcept.guid + '", "scientificName":"notused"}] }'
+            def searchResultsAbsence = '{ "results": [{"occurrenceCount":"' + pageResultsOccsAbsence + '", "guid":"' + taxonDetails.taxonConcept.guid + '", "scientificName":"notused"}] }'
+
+            render(view: 'show', model: [
+                    tc: taxonDetails,
+                    synonymOccurrenceRecords: synonymAllResultsOccs,
+                    searchResults: searchResults,
+                    searchResultsPresence: searchResultsPresence,
+                    searchResultsAbsence: searchResultsAbsence,
+                    statusRegionMap: utilityService.getStatusRegionCodes(),
+                    infoSourceMap:[],
+                    textProperties: [],
+                    synonyms: utilityService.getSynonymsForTaxon(taxonDetails),
+                    isAustralian: false,
+                    isRoleAdmin: false, //authService.userInRole(grailsApplication.config.auth.admin_role),
+                    userName: "",
+                    isReadOnly: grailsApplication.config.ranking.readonly,
+                    sortCommonNameSources: utilityService.getNamesAsSortedMap(taxonDetails.commonNames),
+                    taxonHierarchy: bieService.getClassificationForGuid(taxonDetails.taxonConcept.guid),
+                    childConcepts: bieService.getChildConceptsForGuid(taxonDetails.taxonConcept.guid),
+                    speciesList: bieService.getSpeciesList(taxonDetails.taxonConcept?.guid?:guid),
+                    allResultsOccurrenceRecords: allResultsOccs,
+                    allResultsOccurrenceRecordsNoMapFilter: allResultsOccsNoMapFilter,
+                    pageResultsOccurrenceRecords: pageResultsOccs,
+                    pageResultsOccurrencePresenceRecords: pageResultsOccsPresence,
+                    pageResultsOccurrenceAbsenceRecords: pageResultsOccsAbsence,
+                    recordsFilterToggle: params.includeRecordsFilter ?: "",
+                    recordsFilter: recordsFilter
+            ])
+        }
+    }
 }
