@@ -1,6 +1,5 @@
 package uk.org.nbn.bie
 
-import au.org.ala.bie.webapp2.SearchRequestParamsDTO
 import grails.converters.JSON
 import org.apache.commons.httpclient.util.URIUtil
 
@@ -9,7 +8,7 @@ class BieService extends au.org.ala.bie.BieService{
 
     //legacy, not used - for FFTF, as we slightly customised the method but it is legacy, it was copied to nbn
     @Override
-    def searchBie(SearchRequestParamsDTO requestObj) {
+    def searchBie(NbnSearchRequestParamsDTO requestObj) {
 
         def queryUrl = grailsApplication.config.bie.index.url + "/search?" + requestObj.getQueryString() +
                 "&facets=" + grailsApplication.config.facets
@@ -99,8 +98,8 @@ class BieService extends au.org.ala.bie.BieService{
 
     //additional filter on occurrence records to get different occurrenceCount values for e.g. occurrence_status:absent records
     //also allows override of biocache.queryContext if occFilter includes the needed filter already
-    //def searchBieOccFilter(SearchRequestParamsDTO requestObj, String occFilter, Boolean overrideBiocacheContext) {
-    def searchBieOccFilter(SearchRequestParamsDTO requestObj, occFilter, overrideBiocacheContext) {
+    //def searchBieOccFilter(NbnSearchRequestParamsDTO requestObj, String occFilter, Boolean overrideBiocacheContext) {
+    def searchBieOccFilter(NbnSearchRequestParamsDTO requestObj, occFilter, overrideBiocacheContext) {
 
         def queryUrl = grailsApplication.config.bie.index.url + "/search?" + requestObj.getQueryString() +
                 "&facets=" + grailsApplication.config.facets

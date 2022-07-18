@@ -1,6 +1,5 @@
 package uk.org.nbn.bie
 
-import au.org.ala.bie.webapp2.SearchRequestParamsDTO
 import groovy.json.JsonSlurper
 import org.apache.commons.lang.WordUtils
 import org.grails.web.json.JSONObject
@@ -76,8 +75,8 @@ class SpeciesController extends au.org.ala.bie.SpeciesController{
         }
         recordsFilter = getRecordsFilter()
 
-        def requestObj = new SearchRequestParamsDTO(query, filterQuery, startIndex, rows, sortField, sortDirection, includeSynonyms)
-        log.info "SearchRequestParamsDTO = " + requestObj
+        def requestObj = new NbnSearchRequestParamsDTO(query, filterQuery, startIndex, rows, sortField, sortDirection, includeSynonyms)
+        log.info "NbnSearchRequestParamsDTO = " + requestObj
         log.info "recordsFilter = " + recordsFilter
         //def searchResults = bieService.searchBie(requestObj)
         //def searchResults = bieService.searchBieOccFilter(requestObj, recordsFilter, true)
@@ -340,8 +339,8 @@ class SpeciesController extends au.org.ala.bie.SpeciesController{
 
             def includeSynonyms = (params.includeSynonyms?:'off') == 'on'
 
-            def requestObj = new SearchRequestParamsDTO(query, filterQuery, 0, rowsMax, sortField, sortDirection, includeSynonyms)
-            log.info "SearchRequestParamsDTO = " + requestObj
+            def requestObj = new NbnSearchRequestParamsDTO(query, filterQuery, 0, rowsMax, sortField, sortDirection, includeSynonyms)
+            log.info "NbnSearchRequestParamsDTO = " + requestObj
             def searchResults = bieService.searchBieOccFilter(requestObj, recordsFilter, true)[0]
 
             sr = searchResults?.searchResults
