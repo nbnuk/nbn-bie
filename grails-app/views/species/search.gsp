@@ -23,6 +23,7 @@
     <title>${query} | Search | ${raw(grailsApplication.config.skin.orgNameLong)}</title>
     <meta name="breadcrumb" content="Search results"/>
     <asset:javascript src="search"/>
+    <asset:javascript src="nbn/nbn-search"/>
     <asset:javascript src="atlas"/>
     <asset:stylesheet src="atlas"/>
     <asset:stylesheet src="search"/>
