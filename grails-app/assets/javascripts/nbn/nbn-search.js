@@ -5,6 +5,7 @@
  * Catch sort drop-down and build GET URL manually
  */
 function reloadWithParam(paramName, paramValue) {
+    debug("reloadWithParam override");
     var paramList = [];
     var q = $.getQueryParam('q') ? $.getQueryParam('q') : SEARCH_CONF.query ;
     var fqList = $.getQueryParam('fq'); //$.query.get('fq');
@@ -54,6 +55,7 @@ function reloadWithParam(paramName, paramValue) {
 }
 
 function injectBiocacheResults() {
+    debug("injectBiocacheResults override");
     var queryToUse = (SEARCH_CONF.query == "" || SEARCH_CONF.query == "*" ? "*:*" : SEARCH_CONF.query);
     if (queryToUse != "*:*") return; //new search cannot use this simple model for getting occurrence records
     var biocacheContextUnencoded = $('<textarea />').html(SEARCH_CONF.biocacheQueryContext).text(); //to convert e.g. &quot; back to "
@@ -110,6 +112,7 @@ function tagResultsMakeCallback(lsidsOnPage, lstItem) {
 
 
 function injectBiocacheSearch(lsids, recsTot) {
+    debug("injectBiocacheSearch");
     var biocacheContextUnencoded = $('<textarea />').html(SEARCH_CONF.biocacheQueryContext).text(); //to convert e.g. &quot; back to "
     var url = SEARCH_CONF.biocacheUrl + "/occurrences/search?q=lsid:(" + lsids + ")&qc=" + biocacheContextUnencoded;
     var html = "<li data-count=\"" + recsTot + "\"><a href=\"" + url + "\" id=\"biocacheSearchLink\">Occurrence records</a> (" + numberWithCommas(recsTot) + ")</li>";
@@ -117,6 +120,7 @@ function injectBiocacheSearch(lsids, recsTot) {
 }
 
 function injectBiocacheResultsActual(recsTot, limitSpp) {
+    debug("injectBiocacheResultsActual");
     var q = $.getQueryParam('q') ? $.getQueryParam('q') : SEARCH_CONF.query ;
     var fqList = $.getQueryParam('fq');
     var url = SEARCH_CONF.bieUrl + "/occurrences?q=" + q + (fqList? "&fq=" + fqList.join("&fq=") : "") + "&fq=" + SEARCH_CONF.recordsFilter;
