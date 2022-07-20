@@ -191,6 +191,10 @@ function loadSpeciesLists(){
     });
 }
 
+function updateOccurrenceCount() {
+
+}
+
 function loadDataProviders(){
     debug("loadDataProviders");
     var url = SHOW_CONF.biocacheServiceUrl  +
