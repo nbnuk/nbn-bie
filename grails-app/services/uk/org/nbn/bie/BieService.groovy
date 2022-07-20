@@ -1,14 +1,15 @@
 package uk.org.nbn.bie
 
 import grails.converters.JSON
+import au.org.ala.bie.webapp2.SearchRequestParamsDTO
 import org.apache.commons.httpclient.util.URIUtil
 
 
 class BieService extends au.org.ala.bie.BieService{
 
-    //legacy, not used - for FFTF, as we slightly customised the method but it is legacy, it was copied to nbn
+    //legacy, not used, however as we slightly customised the method  it was copied to nbn for FFTF
     @Override
-    def searchBie(NbnSearchRequestParamsDTO requestObj) {
+    def searchBie(SearchRequestParamsDTO requestObj) {
 
         def queryUrl = grailsApplication.config.bie.index.url + "/search?" + requestObj.getQueryString() +
                 "&facets=" + grailsApplication.config.facets
@@ -255,8 +256,8 @@ class BieService extends au.org.ala.bie.BieService{
             result.commonNameHighlighted = commonNameHighlighted.join(", ")
         }
 
-        log.info("acceptableResults = ")
-        log.info(acceptableResults.toString())
+        log.debug("acceptableResults = ")
+        log.debug(acceptableResults.toString())
         log.info("queryUsedForResults = " + queryUsedForResults)
         [acceptableResults, queryUsedForResults]
     }
