@@ -42,6 +42,7 @@
     <title>${tc?.taxonConcept?.nameString} ${(tc?.commonNames) ? ' : ' + tc?.commonNames?.get(0)?.nameString : ''} | ${raw(grailsApplication.config.skin.orgNameLong)}</title>
     <meta name="layout" content="${grailsApplication.config.skin.layout}"/>
     <asset:javascript src="show"/>
+    <asset:javascript src="species.show.nbn.js"/>
     <asset:stylesheet src="show"/>
     <asset:javascript src="show.mapping.js"/>
     <asset:javascript src="charts"/>
