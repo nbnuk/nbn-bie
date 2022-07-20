@@ -1,6 +1,8 @@
 buildscript {
     repositories {
         mavenLocal()
+        maven { url "https://repository.gbif.org/repository/uk-nbn-releases/" }
+        maven { url "https://repository.gbif.org/repository/uk-nbn-snapshots/" }
         maven { url "http://nexus.ala.org.au/content/groups/public/" }
         maven { url "https://repo.grails.org/grails/core" }
     }
@@ -22,7 +24,7 @@ apply plugin:"org.grails.grails-gsp"
 apply plugin:"asset-pipeline"
 
 //apply from: 'https://raw.githubusercontent.com/nbnuk/travis-build-configuration/master/travis_grails_publish.gradle' // RR fails
-apply from: 'https://raw.githubusercontent.com/AtlasOfLivingAustralia/travis-build-configuration/master/travis_grails_publish.gradle'
+apply from: 'https://raw.githubusercontent.com/nbnuk/travis-build-configuration/master/travis_grails_publish.gradle'
 
 boolean inplace = true
 if (inplace) {
@@ -37,6 +39,8 @@ if (inplace) {
 
 repositories {
     mavenLocal()
+    maven { url "https://repository.gbif.org/repository/uk-nbn-releases/" }
+    maven { url "https://repository.gbif.org/repository/uk-nbn-snapshots/" }
     maven { url "https://nexus.ala.org.au/content/groups/public/" }
     maven { url "https://repo.grails.org/grails/core" }
 }
@@ -69,16 +73,23 @@ dependencies {
         exclude group: 'javax.servlet', module: 'servlet-api'
     }
 
+    compile("au.org.ala:ala-name-matching:2.4.7") {
+        exclude group: 'org.apache.lucene', module: 'lucene-core'
+        exclude group: 'org.apache.lucene', module: 'lucene-analyzers-common'
+        exclude group: 'org.apache.lucene', module: 'lucene-queryparser'
+        exclude group: 'uk.ac.shef.wit', module: 'simmetrics'
+        exclude group: 'org.apache.bval', module: 'org.apache.bval.bundle'
+
+    }
+
     provided "org.springframework.boot:spring-boot-starter-tomcat" //RR to fix production WAR
     //compile group: 'au.org.ala.plugins.grails', name: 'bie-plugin', version: '1.4.2-SNAPSHOT', changing: true
     //compile project(':../bie-plugin') // RR added
     //compile project(':bie-plugin') // RR
 
     compile 'org.grails.plugins:external-config:1.1.1'
-    compile group: 'org.grails.plugins', name: 'ala-bootstrap3', version: '3.0.0', changing: true
-    compile(group: 'org.grails.plugins', name: 'ala-auth', version:'3.1.0', changing: true) {
-        exclude group: 'javax.servlet', module: 'servlet-api'
-    }
+
+    runtime group: 'au.org.ala.plugins.grails', name: 'ala-charts-plugin', version: '2.0.1-NBN'
 
     //compile group: 'org.grails.plugins', name: 'ala-admin-plugin', version: '2.0-SNAPSHOT', changing: true
     //compile group: 'org.grails.plugins', name: 'ala-admin-plugin', version: '2.0', changing: true
