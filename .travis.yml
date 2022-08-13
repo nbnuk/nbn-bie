@@ -1,0 +1,25 @@
+install: gradle wrapper --gradle-version 4.2
+language: groovy
+jdk:
+- oraclejdk8
+dist: trusty
+sudo: false
+branches:
+  only:
+  - master
+  - develop
+  - hotfix
+  - FFTF
+before_cache:
+- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+cache:
+  directories:
+  - "$HOME/.gradle/wrapper/"
+after_success:
+- '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && travis_retry ./gradlew publish --stacktrace
+  --info '
+env:
+  global:
+  - secure: RfJQ5SiktXrZ8/r1J0DfUT9Fjr0XlEYIi6Nc8XAbPMyc+eDFb2H18g7gC5pwrn0tE2KVwIRpCp6kgrm9TKY3o7C/93+09szBnccSxK1Enf7HBgGhg+vqV8RJNxpz3ecA5owQ8TFkyey8wa/r7dyOzrmTIzRZLVExZBr10dDaLMlpiCSuFvQUCf8VZoFoDy4hlJxXTr80aZjcZm17W1M7FlphAzq9ACC6MbbJaJAmLmD38stSdIQsd2R+82lo5PnTqCptYFwHMJEe3zib6rMdA6sUy3k3OoOgl7glaB5PAy4a7JLjXm5SdjQzmp67jR6/IdOAZ8ZC8yXAjr5CeZq9JY4O9R6/iKaYz7wXhndkbIwMW9utFUtGZ48cLKq6tiSWG1Oa46rBeb0P02CUxTVujr69kZxVSG4wPxNy0oeQsJaoYIJa8/8NA53FVS8xrSpyLGJGqvuGFFjMTuXLiZWyBWIG2PNhWCAcFx2aUvI246TwZABxl+vXJs95tj/HY2J18zManronwyuowM27fC/S3O/N6lMxzLsFB0os7gs1wB+zxzTmyvp2/zc3F/CaszdZdKsIzXkIhuXRLhEtDsq6bbcGqBz13RphcpP1EHlni3mLMR8BTLcQJEEy9+cPDWlqZ+/64hOd3D+cOdEf0j7oaF0FXKQPPI+40iLKh0K36Yk=
+  - secure: mbDgSV0DtPXua7GlqCkbSxKEi7fUW1cv39p8gzvkHptFiJe9E+0OPsSJ7I8sFDioh/jDi+KC7QJiGPZuAFE/i5A6LGwIAFve8RSx46WXPwe7KLM6uiiT0KMSKiwP6aivqGOvaoLgRHyis2eMEeu8h++R3OzCR53XrqmEMqUznrxpHQ4VlUM9DMbU8IvBPkbfCHt5CD7MRRPsIHINvxZkoBBwJyhmxnynntLAPQt79EgcKKCLXUFmVIAaepvIQUi8vj3CoavnshInIxqWlLYT1sa8UNdYgoarDuAebeR/FB7D6PUp1vWrDU+4vsQKFkpL/39Cet7JTPHPV0mlQvx0lqAStkRpxJ/W2DxZrjU06fqsgRZQvigfJPFxfjMbntXLWpGiXBw8nnCpt9NCMZQPYrJ37pak1sRmFJoOcWbU1v2D8bZfsMitcU8Q+ovErb3habgCWjy0WE2TjvAaMssKGd6of9JbJxGWUvxGKdA62pEEmhYLcGZkSZCop0U7y4CrlMsYYrbCeBilWknW123m9F/GrrxdVqD14+M0q1PxPj5dEnZTaTHqnjHw6b7/0AKa1JnoUCsQ7XcHwokJLBa4W1N1vK/uvQRME8jtQq6va0DvIs190fUVZRbTmNS5RZForlB6i4b4wHZ5RFVB6d8hkvfmg4a2SU56vsfgXHXcf4A=

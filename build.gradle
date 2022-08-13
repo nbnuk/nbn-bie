@@ -13,7 +13,7 @@ buildscript {
     }
 }
 
-version "1.4.2-SNAPSHOT"
+version "1.5.0-SNAPSHOT"
 group "uk.org.nbn"
 
 apply plugin:"eclipse"
@@ -23,10 +23,9 @@ apply plugin:"org.grails.grails-web"
 apply plugin:"org.grails.grails-gsp"
 apply plugin:"asset-pipeline"
 
-//apply from: 'https://raw.githubusercontent.com/nbnuk/travis-build-configuration/master/travis_grails_publish.gradle' // RR fails
 apply from: 'https://raw.githubusercontent.com/nbnuk/travis-build-configuration/master/travis_grails_publish.gradle'
 
-boolean inplace = true
+boolean inplace = false
 if (inplace) {
     grails {
         exploded = true
@@ -73,23 +72,16 @@ dependencies {
         exclude group: 'javax.servlet', module: 'servlet-api'
     }
 
-    compile("au.org.ala:ala-name-matching:2.4.7") {
-        exclude group: 'org.apache.lucene', module: 'lucene-core'
-        exclude group: 'org.apache.lucene', module: 'lucene-analyzers-common'
-        exclude group: 'org.apache.lucene', module: 'lucene-queryparser'
-        exclude group: 'uk.ac.shef.wit', module: 'simmetrics'
-        exclude group: 'org.apache.bval', module: 'org.apache.bval.bundle'
-
-    }
-
     provided "org.springframework.boot:spring-boot-starter-tomcat" //RR to fix production WAR
-    //compile group: 'au.org.ala.plugins.grails', name: 'bie-plugin', version: '1.4.2-SNAPSHOT', changing: true
-    //compile project(':../bie-plugin') // RR added
-    //compile project(':bie-plugin') // RR
-
+    if (!inplace) {
+        compile group: 'au.org.ala.plugins.grails', name: 'bie-plugin', version: '1.4.2-f092256-NBN-0-0-SNAPSHOT', changing: true
+    }
     compile 'org.grails.plugins:external-config:1.1.1'
-
-    runtime group: 'au.org.ala.plugins.grails', name: 'ala-charts-plugin', version: '2.0.1-NBN'
+    compile 'org.grails.plugins:external-config:1.1.1'
+    compile group: 'org.grails.plugins', name: 'ala-bootstrap3', version: '3.0.0', changing: true
+    compile(group: 'org.grails.plugins', name: 'ala-auth', version:'3.1.0', changing: true) {
+        exclude group: 'javax.servlet', module: 'servlet-api'
+    }
 
     //compile group: 'org.grails.plugins', name: 'ala-admin-plugin', version: '2.0-SNAPSHOT', changing: true
     //compile group: 'org.grails.plugins', name: 'ala-admin-plugin', version: '2.0', changing: true
