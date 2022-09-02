@@ -7,6 +7,8 @@ import org.apache.commons.httpclient.util.URIUtil
 
 class BieService extends au.org.ala.bie.BieService{
 
+    def queryUsedForResults = ""
+
     //legacy, not used, however as we slightly customised the method  it was copied to nbn for FFTF
     @Override
     def searchBie(SearchRequestParamsDTO requestObj) {
