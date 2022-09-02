@@ -74,7 +74,7 @@ dependencies {
 
     provided "org.springframework.boot:spring-boot-starter-tomcat" //RR to fix production WAR
     if (!inplace) {
-        compile group: 'au.org.ala.plugins.grails', name: 'bie-plugin', version: '1.4.2-f092256-NBN-0-1-SNAPSHOT', changing: true
+        compile group: 'au.org.ala.plugins.grails', name: 'bie-plugin', version: '1.4.2-f092256-NBN-0-0-3-SNAPSHOT', changing: true
     }
     compile 'org.grails.plugins:external-config:1.1.1'
     compile 'org.grails.plugins:external-config:1.1.1'
