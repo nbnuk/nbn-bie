@@ -3,7 +3,13 @@ jsFileLocation = jsFileLocation.substring(0,jsFileLocation.lastIndexOf("/"));
 $.getScript(jsFileLocation+'/application-last.js');
 
 $( document ).ready(function() {
-
+    var elements = document.querySelectorAll('link[rel=stylesheet]');
+    for(var i=0;i<elements.length;i++) {
+        if (elements[i].href.indexOf("autocomplete")>-1){
+            elements[i].parentNode.removeChild(elements[i]);
+        }
+    }
+    // $('link[rel=stylesheet][href~="autocomplete"]').remove();
     setOccurrenceRecordCountIsLoading();
     changeViewOccurrenceRecordLinks();
 

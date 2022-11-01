@@ -11,5 +11,5 @@ if (inplace) {
 //    include ':images-client-plugin'
 //    project(':images-client-plugin').projectDir = new File(settingsDir,'../images-client-plugin')
 //    include ':ala-bootstrap3'
-//    project(':ala-bootstrap3').projectDir = new File(settingsDir,'../ala-bootstrap3')
+//    project(':ala-bootstrap3').projectDir = new File(settingsDir,'../../ala-code/ala-bootstrap3')
 }
