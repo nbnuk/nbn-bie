@@ -37,7 +37,7 @@ function loadSpeciesLists(){
     }).fail( function(d, textStatus, error) {
         console.error("getJSON failed, status: " + textStatus + ", error: "+error)
     }); */
-    $.getJSON(SHOW_CONF.speciesListUrl + '/ws/species/' + SHOW_CONF.guid /* + '?callback=?'*/, function( data ) {
+    $.getJSON(SHOW_CONF.speciesListUrl + '/ws/species/' + SHOW_CONF.guid + '?isBIE=true', function( data ) {
         if (!data) return;
 
         var listsDone = [];

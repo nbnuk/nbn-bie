@@ -12,6 +12,7 @@
         <script type="text/javascript">
             var BIE_VARS = { "autocompleteUrl" : "${grailsApplication.config.bie.index.url}/search/auto.jsonp"}
         </script>
+        <script src="/assets/nbn/application.js" ></script>
         <g:layoutHead/>
     </head>
     <body>

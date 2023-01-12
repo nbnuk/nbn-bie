@@ -260,7 +260,9 @@ function loadMap(MAP_CONF) {
             if (Number(MAP_CONF.resultsToMapJSON.results[i].occurrenceCount) > 0) {
                 prms["ENV"] = MAP_CONF.mapEnvOptions + ";color:" + colours[i];
                 var url = MAP_CONF.biocacheServiceUrl + "/mapping/wms/reflect?q=lsid:" +
-                    MAP_CONF.resultsToMapJSON.results[i].guid + "&qc=" + mapContextUnencoded + (MAP_CONF.additionalMapFilter? '&' + MAP_CONF.additionalMapFilter : '')
+                    MAP_CONF.resultsToMapJSON.results[i].guid
+                    + (SHOW_CONF.qualityProfile? "&qualityProfile="+SHOW_CONF.qualityProfile : "")
+                    + "&qc=" + mapContextUnencoded + (MAP_CONF.additionalMapFilter? '&' + MAP_CONF.additionalMapFilter : '')
                 if (MAP_CONF.presenceOrAbsence == 'presence') {
                     url += "&fq=occurrence_status:present"
                 } else if (MAP_CONF.presenceOrAbsence == 'absence') {
@@ -283,7 +285,9 @@ function loadMap(MAP_CONF) {
                 prmsLayer[i]["ENV"] = MAP_CONF.mapEnvOptions + ";color:" + coloursArr[i];
                 htmlEntityDecoder.innerHTML = fqsArr[i];
                 var url = MAP_CONF.biocacheServiceUrl + "/mapping/wms/reflect?q=lsid:" +
-                    MAP_CONF.guid + "&qc=" + mapContextUnencoded + (MAP_CONF.additionalMapFilter? '&' + MAP_CONF.additionalMapFilter : '') +
+                    MAP_CONF.guid
+                    + (SHOW_CONF.qualityProfile? "&qualityProfile="+SHOW_CONF.qualityProfile : "")
+                    + "&qc=" + mapContextUnencoded + (MAP_CONF.additionalMapFilter? '&' + MAP_CONF.additionalMapFilter : '') +
                     "&fq=" + htmlEntityDecoder.value;
                 if (MAP_CONF.presenceOrAbsence == 'presence') {
                     url += "&fq=occurrence_status:present"
@@ -297,7 +301,9 @@ function loadMap(MAP_CONF) {
         } else {
             prms["ENV"] = MAP_CONF.mapEnvOptions;
             var url = MAP_CONF.biocacheServiceUrl + "/mapping/wms/reflect?q=lsid:" +
-                MAP_CONF.guid + "&qc=" + mapContextUnencoded + (MAP_CONF.additionalMapFilter? '&' + MAP_CONF.additionalMapFilter : '');
+                MAP_CONF.guid
+                + (SHOW_CONF.qualityProfile? "&qualityProfile="+SHOW_CONF.qualityProfile : "")
+                + "&qc=" + mapContextUnencoded + (MAP_CONF.additionalMapFilter? '&' + MAP_CONF.additionalMapFilter : '');
             if (MAP_CONF.presenceOrAbsence == 'presence') {
                 url += "&fq=occurrence_status:present"
             } else if (MAP_CONF.presenceOrAbsence == 'absence') {

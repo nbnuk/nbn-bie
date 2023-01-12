@@ -27,7 +27,7 @@ class BieService extends au.org.ala.bie.BieService{
             queryUrl = queryUrl + "&bqc=" + URIUtil.encodeWithinQuery(grailsApplication.config.biocacheService.queryContext).replaceAll("%26","&").replaceAll("%3D","=").replaceAll("%3A",":")
         }
         log.info("queryUrl = " + queryUrl)
-        def json = webService.get(queryUrl)
+        def json = webClientService.get(queryUrl)
         JSON.parse(json)
     }
 
@@ -63,7 +63,7 @@ class BieService extends au.org.ala.bie.BieService{
         def acceptableResults = JSON.parse("{}")
 
         def queryUrlExactMatch = queryUrlWithoutQandPage + "&fq=taxonomicStatus:accepted&fq=" + matchFQ
-        def json = webService.get(queryUrlExactMatch)
+        def json = webClientService.get(queryUrlExactMatch)
         def resJson = JSON.parse(json)
         def resultsInThisPage = resJson.searchResults?.results?.size()?: 0 //note, not totalResults since could be on 2nd or further page, beyond end of results
         if (resultsInThisPage > 0) {
@@ -77,7 +77,7 @@ class BieService extends au.org.ala.bie.BieService{
                 if (resJson.searchResults.results[0].rankID >= 5000 && resJson.searchResults.results[0].rankID < 6000) {
                     queryUrlFGSAndChildren = queryUrlFGSAndChildren.replace("&sort=", "&sort2=").replace("&dir=", "&dir2=") + "&sort=rankID&dir=ASC"
                 }
-                json = webService.get(queryUrlFGSAndChildren)
+                json = webClientService.get(queryUrlFGSAndChildren)
                 def resJsonWithChild = JSON.parse(json)
                 if (resJsonWithChild.searchResults?.totalRecords > 0) {
                     resJsonWithChild.searchResults.queryTitle = strOriginalQueryTerm
@@ -157,7 +157,7 @@ class BieService extends au.org.ala.bie.BieService{
             def synonymParam = "&fq=scientific_name:%22" + queryParam + "%22"
             def queryUrlExactMatch = queryUrl + synonymParam //note scientific_name is case-insensitive and has various syntax chars removed for better matching
             def queryUrlExactMatchWithoutPage = queryUrlExactMatch.replace("start=" + queryPage,"start=0")
-            def json = webService.get(queryUrlExactMatchWithoutPage)
+            def json = webClientService.get(queryUrlExactMatchWithoutPage)
             def resJson = JSON.parse(json)
             resultsInThisPage = resJson.searchResults?.results?.size()?: 0
             if (resultsInThisPage > 0) { //what if more than one result?
@@ -166,7 +166,7 @@ class BieService extends au.org.ala.bie.BieService{
             } else {
                 queryUrlExactMatch = queryUrl + "&fq=name_complete:%22" + queryParam + "%22";
                 queryUrlExactMatchWithoutPage = queryUrlExactMatch.replace("start=" + queryPage,"start=0")
-                json = webService.get(queryUrlExactMatchWithoutPage)
+                json = webClientService.get(queryUrlExactMatchWithoutPage)
                 resJson = JSON.parse(json)
                 resultsInThisPage = resJson.searchResults?.results?.size()?: 0
                 if (resultsInThisPage > 0) { //what if more than one result?
@@ -182,11 +182,11 @@ class BieService extends au.org.ala.bie.BieService{
             def commonParam = "&fq=taxonomicStatus:accepted&fq=commonName:%22" + queryParam + "%22"
             def queryUrlExactCommonName = queryUrl + commonParam
             def queryUrlExactCommonNameWithoutPage = queryUrlExactCommonName.replace("start=" + queryPage,"start=0")
-            def json = webService.get(queryUrlExactCommonNameWithoutPage)
+            def json = webClientService.get(queryUrlExactCommonNameWithoutPage)
             def resJson = JSON.parse(json)
             resultsInThisPage = resJson.searchResults?.results?.size()?: 0
             if (resultsInThisPage > 0) {
-                json = webService.get(queryUrlExactCommonName)
+                json = webClientService.get(queryUrlExactCommonName)
                 acceptableResults = JSON.parse(json)
                 queryUsedForResults = "q=" + queryParam + commonParam
                 haveAcceptableResults = true
@@ -198,11 +198,11 @@ class BieService extends au.org.ala.bie.BieService{
             def acceptedParam = "&fq=taxonomicStatus:accepted"
             def queryUrlAccepted = queryUrl + acceptedParam
             def queryUrlAcceptedWithoutPage = queryUrlAccepted.replace("start=" + queryPage,"start=0")
-            def json = webService.get(queryUrlAcceptedWithoutPage)
+            def json = webClientService.get(queryUrlAcceptedWithoutPage)
             def resJson = JSON.parse(json)
             resultsInThisPage = resJson.searchResults?.results?.size()?: 0
             if (resultsInThisPage > 0) {
-                json = webService.get(queryUrlAccepted)
+                json = webClientService.get(queryUrlAccepted)
                 acceptableResults = JSON.parse(json)
                 queryUsedForResults = "q=" + queryParam + acceptedParam
                 haveAcceptableResults = true
@@ -211,7 +211,7 @@ class BieService extends au.org.ala.bie.BieService{
 
         if (! haveAcceptableResults) {
             //give up?
-            def json = webService.get(queryUrl)
+            def json = webClientService.get(queryUrl)
             def resJson = JSON.parse(json)
             //TODO: need to change sort order to best-match desc maybe?
             acceptableResults = resJson
@@ -266,7 +266,7 @@ class BieService extends au.org.ala.bie.BieService{
 
     def getSpeciesListDetails(dataResourceUid) {
         try {
-            def json = webService.get(grailsApplication.config.speciesList.baseURL + "/ws/speciesList/" + (dataResourceUid ?: ""), true)
+            def json = webClientService.get(grailsApplication.config.speciesList.baseURL + "/ws/speciesList/" + (dataResourceUid ?: ""), true)
             return JSON.parse(json)
         } catch(Exception e){
             //handles the situation where time out exceptions etc occur.
@@ -309,7 +309,7 @@ class BieService extends au.org.ala.bie.BieService{
         } else if (presenceOrAbsence == 'absence') {
             url = url + "&fq=occurrence_status:absent"
         }
-        def json = webService.get(url)
+        def json = webClientService.get(url)
         try{
             def response = JSON.parse(json)
             Iterator<?> keys = response.keys();

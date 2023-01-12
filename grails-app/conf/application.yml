@@ -109,42 +109,42 @@ bie:
   searchPath: /search
   index:
     url: http://localhost:8090/bie-index
-facets: idxtype,rank,speciesGroup,locatedInHubCountry,imageAvailable,conservationStatusAUS_s,conservationStatusACT_s,conservationStatusNSW_s,conservationStatusQLD_s,conservationStatusVIC_s,conservationStatusTAS_s,conservationStatusSA_s,conservationStatusWA_s,conservationStatusNT_s
-speciesParent: https://lists.ala.org.au/iconic-species
-serverName: http://dev.ala.org.au:8080
+facets: idxtype,rank,imageAvailable,speciesGroup,taxonGroup_s,establishmentMeans,habitat_m_s
+speciesParent: https://lists.nbn.org.uk/iconic-species
+serverName: http://dev.nbn.org.uk:8080
 projectNameShort: NBN Atlas
 projectName: National Biodiversity Network
 biocache:
-    baseURL: "http://biocache.ala.org.au"
+    baseURL: "http://biocache.nbn.org.uk"
 biocacheService:
-    baseURL: http://biocache.ala.org.au/ws
+    baseURL: http://biocache.nbn.org.uk/ws
     queryContext:
 spatial:
-    baseURL: http://spatial.ala.org.au
+    baseURL: http://spatial.nbn.org.uk
 layersService:
-    baseURL: http://spatial.ala.org.au/ws
+    baseURL: http://spatial.nbn.org.uk/ws
 ala:
     baseURL: https://nbnatlas.org
 collectory:
-    baseURL: http://collections.ala.org.au
-    threatenedSpeciesCodesUrl: http://collections.ala.org.au/public/showDataResource
+    baseURL: http://collections.nbn.org.uk
+    threatenedSpeciesCodesUrl: http://collections.nbn.org.uk/public/showDataResource
 regions:
-    baseURL: http://regions.ala.org.au
+    baseURL: http://regions.nbn.org.uk
 bhl:
-    baseURL: http://bhlidx.ala.org.au
+    baseURL: http://bhlidx.nbn.org.uk
 speciesList:
-    baseURL: http://lists.ala.org.au
+    baseURL: http://lists.nbn.org.uk
 alerts:
-    baseUrl: http://alerts.ala.org.au/ws/
+    baseUrl: http://alerts.nbn.org.uk/ws/
 sightings:
-    guidUrl: http://sightings.ala.org.au/
+    guidUrl:
 eol:
     lang: en
 defaultDecimalLatitude: -25.61
 defaultDecimalLongitude: 134.35
 defaultZoomLevel: 4
 image:
-    thumbnailUrl: http://images.ala.org.au/image/proxyImageThumbnail?imageId=
+    thumbnailUrl: http://images.nbn.org.uk/image/proxyImageThumbnail?imageId=
 map:
     default:
         id:
@@ -186,7 +186,7 @@ additionalMapFilter:
 synonymsTypes: synonym
 literature:
     bhl:
-        url: https://bhlidx.ala.org.au/select
+        url: https://bhlidx.nbn.org.uk/select
     genbank:
         url: https://www.ncbi.nlm.nih.gov
     scholar:
