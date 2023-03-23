@@ -1,8 +1,8 @@
 $(document).ready(function () {
     // autocomplete
-    var bieBaseUrl = "https://species-ws.nbnatlas.org"; //SEARCH_CONF.bieWebServiceUrl;
+    var bieBaseUrl = SEARCH_CONF.bieWebServiceUrl;
     var bieParams = { limit: 20 };
-    var autoHints = ""; //SEARCH_CONF.autocompleteHints; // expects { fq: "kingdom:Plantae" }
+    var autoHints = SEARCH_CONF.autocompleteHints; // expects { fq: "kingdom:Plantae" }
     $.extend( bieParams, autoHints ); // merge autoHints into bieParams
 
     function getMatchingName(item) {
@@ -24,8 +24,8 @@ $(document).ready(function () {
 
         return results;
     };
-$("#search").autocomplete({
-    /* $.ui.autocomplete({ */
+
+    $.ui.autocomplete({
         source: function (request, response) {
             bieParams.q = request.term;
             $.ajax( {
@@ -33,7 +33,6 @@ $("#search").autocomplete({
                 dataType: "json",
                 data: bieParams,
                 success: function( data ) {
-                    console.log(data);
                     response( formatAutocompleteList(data.autoCompleteList) );
                 }
             } );

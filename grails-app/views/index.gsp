@@ -5,6 +5,13 @@
     <meta name="breadcrumb" content=""/> <!-- defaults to title below -->
     <title>Species search | ${grailsApplication.config.skin?.orgNameLong}</title>
     <link rel="stylesheet" href="/assets/autocomplete.css?compile=false" />
+    <asset:script type="text/javascript">
+        // global var to pass GSP vars into JS file
+        SEARCH_CONF = {
+            bieWebServiceUrl: "${grailsApplication.config.bie.index.url}"
+        }
+    </asset:script>
+    <asset:javascript src="autocomplete-configuration.js"/>
 </head>
 
 
