@@ -44,7 +44,7 @@ function loadTheMap (MAP_CONF) {
         //leaflet maps don't like being loaded in a div that isn't being shown, this fixes the position of the map
         $(function () {
             if (MAP_CONF.mapType == 'search') {
-                //this stylesheet interferes with the tabs and was previously excluded from inns build
+                //NBN this stylesheet interferes with the tabs and was previously excluded from inns build
                 $("link[href*='/wales/commonui-bs3-v2/css/autocomplete.min.css']").attr('disabled', true);
 
                 $("#tabs").tabs({
