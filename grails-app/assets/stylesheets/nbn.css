@@ -1,8 +1,5 @@
 
 /* NBN: align styling with pre-Grails 3 version of BIE */
-#breadcrumb {
-    display:none
-}
 
 .pg-header {
     margin-top: 40px;
@@ -15,6 +12,7 @@
 
 #main {
     padding-left: 0px;
+    padding-top: 0;
 }
 
 .taxon-tabs .tab-content {
