@@ -258,6 +258,8 @@ class SpeciesController extends au.org.ala.bie.SpeciesController{
             def searchResultsPresence = '{ "results": [{"occurrenceCount":"' + pageResultsOccsPresence + '", "guid":"' + taxonDetails.taxonConcept.guid + '", "scientificName":"notused"}] }'
             def searchResultsAbsence = '{ "results": [{"occurrenceCount":"' + pageResultsOccsAbsence + '", "guid":"' + taxonDetails.taxonConcept.guid + '", "scientificName":"notused"}] }'
 
+            taxonDetails.standardCommonNames = taxonDetails.commonNames
+
             render(view: 'show', model: [
                     tc: taxonDetails,
                     synonymOccurrenceRecords: synonymAllResultsOccs,
