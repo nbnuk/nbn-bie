@@ -69,7 +69,7 @@
 
             <div class="panel panel-default panel-resources">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Online Resources NBN1 <img src="${resource(dir: 'images', file: 'spinner.gif')}" id="gallerySpinner"  alt="spinner icon"/></h3>
+                    <h3 class="panel-title">Online Resources</h3>
                 </div>
 
                 <div class="panel-body">
