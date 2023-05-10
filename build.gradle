@@ -13,7 +13,7 @@ buildscript {
     }
 }
 
-version "1.5.2-NBN-0-0-5"
+version "1.5.2-NBN-0-0-6"
 group "uk.org.nbn"
 
 apply plugin:"eclipse"

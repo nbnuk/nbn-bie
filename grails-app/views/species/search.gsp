@@ -244,8 +244,11 @@
                                         ${collectionsMap?.get(resourceType)}: <strong>&nbsp;${collectionsMap?.get(item.value)}</strong>
                                     </g:if>
                                     <g:else>
-                                        <g:message code="facet.${item.key}" default="${item.key}"/>: <strong><g:message
-                                            code="${item.key}.${item.value}" default="${item.value}"/></strong>
+                                        <g:message code="facet.${item.key}" default="${item.key}"/>:
+                                        <g:each var="value" in="${item.value}" status="fvIdx">
+                                            <g:if test="${fvIdx > 0}">, </g:if>
+                                            <strong><g:message code="${item.key}.${value}" default="${value}"/></strong>
+                                        </g:each>
                                     </g:else>
                                     <a href="#" onClick="javascript:removeFacet(${facetIdx});
                                     return true;" title="remove filter"><span
