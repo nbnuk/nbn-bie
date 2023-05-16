@@ -12,10 +12,23 @@ import java.text.MessageFormat
  */
 class ExternalSiteController extends au.org.ala.bie.ExternalSiteController {
 
+    String[] blacklist
+
+    ExternalSiteController() {
+        //Load GUID blacklist from line-separated file
+        blacklist = new File("/data/nbn-bie/config/eol_blacklist.list")
+    }
 
     def eol = {
-        eolRateLimiter.acquire()
+
         String jsonOutput = "{}" // default is empty JSON object
+
+        if(blacklist.contains(params.guid)){
+            //Return no content
+            return jsonOutput
+        }
+
+        eolRateLimiter.acquire()
         def nameEncoded = URLEncoder.encode(params.s, 'UTF-8')
         def filterString  = URLEncoder.encode(params.f ?: '', 'UTF-8')
         String search = grailsApplication.config.external.eol.search.service
