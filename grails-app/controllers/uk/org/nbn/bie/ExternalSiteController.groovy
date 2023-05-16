@@ -91,6 +91,17 @@ class ExternalSiteController extends au.org.ala.bie.ExternalSiteController {
             } else {
                 jsonOutput = pageText
             }
+
+            //this was previously handled clientside, but ALA now handle serverside
+            def eolLanguage = grailsApplication.config.eol?.lang
+            if (eolLanguage) {
+                def results = js.parseText(jsonOutput)
+                if (results.taxonConcept?.dataObjects)
+                {
+                    results.taxonConcept.dataObjects = results.taxonConcept.dataObjects.findAll { dto -> !dto.language || dto.language == eolLanguage }
+                    jsonOutput = JsonOutput.toJson(results)
+                }
+            }
         }
         //log.info("EOL final json = " + jsonOutput)
 
