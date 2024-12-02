@@ -32,7 +32,7 @@ function changeViewOccurrenceRecordLinks(){
     var viewAllOccurrenceRecordsLinks =$("section#records a");
     if (typeof MAP_CONF !== 'undefined' && viewAllOccurrenceRecordsLinks.length==2){
         $(viewAllOccurrenceRecordsLinks[0]).attr("href", MAP_CONF.viewAllOccurrenceRecordsUrl);
-        $(viewAllOccurrenceRecordsLinks[0]).attr("href", MAP_CONF.viewAllOccurrenceRecordsAsMapUrl);
+        $(viewAllOccurrenceRecordsLinks[1]).attr("href", MAP_CONF.viewAllOccurrenceRecordsAsMapUrl);
     }
 }
 
