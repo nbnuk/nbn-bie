@@ -27,38 +27,64 @@
                 </div>
             </div>
 
-            <g:if test="${tc.conservationStatuses}">
+            <g:if test="${tc.conservationStatuses || tc.conservationPriorityList}">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Conservation Status</h3>
                     </div>
 
                     <div class="panel-body">
-                        <ul class="conservationList">
-                            <g:each in="${tc.conservationStatuses.entrySet().sort { it.key }}" var="cs">
-                                <li>
-                                    <g:if test="${cs.value.dr}">
-                                        <a href="${collectoryUrl}/public/show/${cs.value.dr}"><span
-                                            class="iucn <bie:colourForStatus
-                                                    status="${cs.value.status}"/>">${cs.key}</span>
-                                        <g:if test="${cs.value.status instanceof Collection}">
-                                            <g:each var="csVal" in="${cs.value.status}">
-                                                ${csVal}<br/>
-                                            </g:each>
+                        <g:if test="${tc.conservationStatuses}">
+                            <ul class="conservationList">
+                                <g:each in="${tc.conservationStatuses.entrySet().sort { it.key }}" var="cs">
+                                    <li>
+                                        <g:if test="${cs.value.dr}">
+                                            <a href="${collectoryUrl}/public/show/${cs.value.dr}"><span
+                                                class="iucn <bie:colourForStatus
+                                                        status="${cs.value.status}"/>">${cs.key}</span>
+                                            <g:if test="${cs.value.status instanceof Collection}">
+                                                <g:each var="csVal" in="${cs.value.status}">
+                                                    ${csVal}<br/>
+                                                </g:each>
+                                            </g:if>
+                                            <g:else>
+                                                ${cs.value.status}
+                                            </g:else>
+                                            <!-- cs = ${cs} -->
+                                            </a>
                                         </g:if>
                                         <g:else>
-                                            ${cs.value.status}
+                                            <span class="iucn <bie:colourForStatus
+                                                    status="${cs.value.status}"/>">${cs.key}</span>${cs.value.status}
                                         </g:else>
-                                        <!-- cs = ${cs} -->
-                                        </a>
-                                    </g:if>
-                                    <g:else>
-                                        <span class="iucn <bie:colourForStatus
-                                                status="${cs.value.status}"/>">${cs.key}</span>${cs.value.status}
-                                    </g:else>
-                                </li>
-                            </g:each>
-                        </ul>
+                                    </li>
+                                </g:each>
+                            </ul>
+                        </g:if>
+
+                        <g:if test="${tc.conservationPriorityList}">
+                            <h4>UK Biodiversity Lists</h4>
+                            <ul class="conservationList">
+                                <g:each in="${tc.conservationPriorityList.entrySet().sort { it.key }}" var="cp">
+                                    <li>
+                                        <g:if test="${cp.value.dr}">
+                                            <a href="${collectoryUrl}/public/show/${cp.value.dr}">
+                                                <span class="iucn ${cp.key.toLowerCase().replace(' ', '-')}">
+                                                    ${cp.key}
+                                                </span>
+                                                ${cp.value.status}
+                                            </a>
+                                        </g:if>
+                                        <g:else>
+                                            <span class="iucn ${cp.key.toLowerCase().replace(' ', '-')}">
+                                                ${cp.key}
+                                            </span>
+                                            ${cp.value.status}
+                                        </g:else>
+                                    </li>
+                                </g:each>
+                            </ul>
+                        </g:if>
                     </div>
                 </div>
             </g:if>
