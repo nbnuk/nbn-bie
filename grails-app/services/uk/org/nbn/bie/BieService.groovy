@@ -320,4 +320,24 @@ class BieService extends au.org.ala.bie.BieService{
             null
         }
     }
+
+    /**
+     * Retrieves species list information by data resource UID
+     *
+     * @param dataResourceUid The data resource UID to look up
+     * @return The species list information or null if not found
+     */
+    def getSpeciesListByDataResourceUid(String dataResourceUid) {
+        if(!dataResourceUid || !grailsApplication.config.speciesList.baseURL) {
+            return null
+        }
+
+        try {
+            def json = webClientService.get(grailsApplication.config.speciesList.baseURL + "/ws/speciesList/" + dataResourceUid, true)
+            return JSON.parse(json)
+        } catch(Exception e) {
+            log.error("Error retrieving species list for data resource UID: ${dataResourceUid}", e)
+            return null
+        }
+    }
 }

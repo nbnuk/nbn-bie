@@ -36,29 +36,64 @@
                     <div class="panel-body">
                         <ul class="conservationList">
                             <g:each in="${tc.conservationStatuses.entrySet().sort { it.key }}" var="cs">
-                                <li>
-                                    <g:if test="${cs.value.dr}">
-                                        <a href="${collectoryUrl}/public/show/${cs.value.dr}"><span
-                                            class="iucn <bie:colourForStatus
-                                                    status="${cs.value.status}"/>">${cs.key}</span>
-                                        <g:if test="${cs.value.status instanceof Collection}">
-                                            <g:each var="csVal" in="${cs.value.status}">
-                                                ${csVal}<br/>
-                                            </g:each>
+                                <g:if test="${!grailsApplication.config.conservation_rare_scarce_country_lists?.contains(cs.value.dr)}">
+                                    <li>
+                                        <g:if test="${cs.value.dr}">
+                                            <a href="${collectoryUrl}/public/show/${cs.value.dr}"><span
+                                                class="iucn <bie:colourForStatus
+                                                        status="${cs.value.status}"/>"
+                                                title="${cs.value.listName ? (cs.value.listName.contains('-') ? cs.value.listName.substring(cs.value.listName.indexOf('-') + 1).trim() : cs.value.listName) : cs.key}">${cs.value.listName ? (cs.value.listName.contains('-') ? cs.value.listName.substring(0, cs.value.listName.indexOf('-')).trim() : cs.value.listName) : cs.key}</span>
+                                            <g:if test="${cs.value.status instanceof Collection}">
+                                                <span class="status-text">
+                                                    <g:each var="csVal" in="${cs.value.status}">
+                                                        ${csVal}<br/>
+                                                    </g:each>
+                                                </span>
+                                            </g:if>
+                                            <g:else>
+                                                <span class="status-text">${cs.value.status}</span>
+                                            </g:else>
+                                            </a>
                                         </g:if>
                                         <g:else>
-                                            ${cs.value.status}
+                                            <span class="iucn <bie:colourForStatus
+                                                    status="${cs.value.status}"/>"
+                                                title="${cs.value.listName ? (cs.value.listName.contains('-') ? cs.value.listName.substring(cs.value.listName.indexOf('-') + 1).trim() : cs.value.listName) : cs.key}">${cs.value.listName ? (cs.value.listName.contains('-') ? cs.value.listName.substring(0, cs.value.listName.indexOf('-')).trim() : cs.value.listName) : cs.key}</span>
+                                            <span class="status-text">${cs.value.status}</span>
                                         </g:else>
-                                        <!-- cs = ${cs} -->
-                                        </a>
-                                    </g:if>
-                                    <g:else>
-                                        <span class="iucn <bie:colourForStatus
-                                                status="${cs.value.status}"/>">${cs.key}</span>${cs.value.status}
-                                    </g:else>
-                                </li>
+                                    </li>
+                                </g:if>
                             </g:each>
                         </ul>
+
+                        <g:set var="rareAndScarceStatuses" value="${tc.conservationStatuses.findAll { entry -> entry.value.dr && grailsApplication.config.conservation_rare_scarce_country_lists?.contains(entry.value.dr) }}" />
+
+                        <g:if test="${rareAndScarceStatuses}">
+                            <div class="rare-scarce-section">
+                                <h4>Rare and Scarce</h4>
+                                <ul class="conservationList">
+                                    <g:each in="${rareAndScarceStatuses.entrySet().sort { it.key }}" var="cs">
+                                        <li>
+                                            <a href="${collectoryUrl}/public/show/${cs.value.dr}"><span
+                                                class="iucn <bie:colourForStatus
+                                                        status="${cs.value.status}"/>"
+                                                title="${cs.value.listName ? (cs.value.listName.contains('-') ? cs.value.listName.substring(cs.value.listName.indexOf('-') + 1).trim() : cs.value.listName) : cs.key}">${cs.value.listName ? (cs.value.listName.contains('-') ? cs.value.listName.substring(0, cs.value.listName.indexOf('-')).trim() : cs.value.listName) : cs.key}</span>
+                                            <g:if test="${cs.value.status instanceof Collection}">
+                                                <span class="status-text">
+                                                    <g:each var="csVal" in="${cs.value.status}">
+                                                        ${csVal}<br/>
+                                                    </g:each>
+                                                </span>
+                                            </g:if>
+                                            <g:else>
+                                                <span class="status-text">${cs.value.status}</span>
+                                            </g:else>
+                                            </a>
+                                        </li>
+                                    </g:each>
+                                </ul>
+                            </div>
+                        </g:if>
                     </div>
                 </div>
             </g:if>

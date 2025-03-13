@@ -216,6 +216,23 @@ class SpeciesController extends au.org.ala.bie.SpeciesController{
             redirect(uri: "/species/${taxonDetails.taxonConcept.guid}")
 
         } else {
+            // Enhance conservation statuses with species list information
+            if (taxonDetails.conservationStatuses) {
+                log.debug "Enhancing conservation statuses with species list information"
+                taxonDetails.conservationStatuses.each { key, value ->
+                    if (value.dr) {
+                        log.debug "Fetching species list for conservation status '${key}' with data resource UID: ${value.dr}"
+                        def speciesList = bieService.getSpeciesListByDataResourceUid(value.dr)
+                        if (speciesList) {
+                            log.debug "Found species list: ${speciesList.listName}"
+                            value.listName = speciesList.listName
+                        } else {
+                            log.debug "No species list found for data resource UID: ${value.dr}"
+                        }
+                    }
+                }
+            }
+
             def synonymAllResultsOccs = -1
 
             if (taxonDetails.taxonConcept.acceptedConceptID) {
