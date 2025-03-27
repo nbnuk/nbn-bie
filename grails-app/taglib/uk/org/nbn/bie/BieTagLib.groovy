@@ -79,38 +79,4 @@ class BieTagLib extends au.org.ala.bie.BieTagLib {
         out << colour
     }
 
-    def "test colourForCountry default"() {
-        expect:
-        tagLib.colourForCountry(status: "") == 'uk'
-    }
-
-    def "test colourForCountry wales"() {
-        expect:
-        tagLib.colourForCountry(status: "Species found in Wales") == 'wales'
-    }
-
-    def "test colourForCountry scotland"() {
-        expect:
-        tagLib.colourForCountry(status: "Present in Scotland") == 'scotland'
-    }
-
-    def "test colourForCountry england"() {
-        expect:
-        tagLib.colourForCountry(status: "Endemic to England") == 'england'
-    }
-
-    def "test colourForCountry northern ireland"() {
-        expect:
-        tagLib.colourForCountry(status: "Occurs in Northern Ireland") == 'northern-ireland'
-    }
-
-    def "test colourForCountry multiple countries"() {
-        expect:
-        tagLib.colourForCountry(status: "Scotland and Wales") == 'wales' // matches first case
-    }
-
-    def "test colourForCountry case insensitivity"() {
-        expect:
-        tagLib.colourForCountry(status: "nOrThErN iReLaNd") == 'northern-ireland'
-    }
 }
