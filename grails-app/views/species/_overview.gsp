@@ -59,6 +59,10 @@
                                 </li>
                             </g:each>
                         </ul>
+
+                        <g:render template="nbnConservationStatus"/>
+
+
                     </div>
                 </div>
             </g:if>
