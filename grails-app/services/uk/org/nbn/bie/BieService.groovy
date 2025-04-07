@@ -26,7 +26,7 @@ class BieService extends au.org.ala.bie.BieService{
         if(grailsApplication.config.biocacheService.queryContext){
             queryUrl = queryUrl + "&bqc=" + URIUtil.encodeWithinQuery(grailsApplication.config.biocacheService.queryContext).replaceAll("%26","&").replaceAll("%3D","=").replaceAll("%3A",":")
         }
-        log.debug("queryUrl = " + queryUrl)
+        log.info("queryUrl = " + queryUrl)
         def json = webClientService.get(queryUrl)
         JSON.parse(json)
     }
@@ -143,8 +143,8 @@ class BieService extends au.org.ala.bie.BieService{
             queryUrl = queryUrl + queryContext
             queryUsedForResults = "q=" + queryParam + queryContext
 
-            log.debug("queryUrlOccFilter = " + queryUrl)
-            log.debug("queryUsedForResults = " + queryUsedForResults)
+            log.info("queryUrlOccFilter = " + queryUrl)
+            log.info("queryUsedForResults = " + queryUsedForResults)
 
             def queryPage = requestObj.start?:0
 
@@ -269,9 +269,9 @@ class BieService extends au.org.ala.bie.BieService{
             result.commonNameHighlighted = commonNameHighlighted.join(", ")
         }
 
-        log.debug("acceptableResults = ")
-        log.debug(acceptableResults.toString())
-        log.debug("queryUsedForResults = " + queryUsedForResults)
+        log.info("acceptableResults = ")
+        log.info(acceptableResults.toString())
+        log.info("queryUsedForResults = " + queryUsedForResults)
         [acceptableResults, queryUsedForResults]
     }
 
@@ -327,7 +327,7 @@ class BieService extends au.org.ala.bie.BieService{
             String key = (String) keys.next()
             response.get(key)
         } catch (Exception e){
-            log.debug "Problem retrieving occurrence information for Taxon: " + guid
+            log.info "Problem retrieving occurrence information for Taxon: " + guid
             null
         }
     }
