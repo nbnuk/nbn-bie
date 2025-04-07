@@ -26,7 +26,7 @@ class BieService extends au.org.ala.bie.BieService{
         if(grailsApplication.config.biocacheService.queryContext){
             queryUrl = queryUrl + "&bqc=" + URIUtil.encodeWithinQuery(grailsApplication.config.biocacheService.queryContext).replaceAll("%26","&").replaceAll("%3D","=").replaceAll("%3A",":")
         }
-        log.info("queryUrl = " + queryUrl)
+        log.debug("queryUrl = " + queryUrl)
         def json = webClientService.get(queryUrl)
         JSON.parse(json)
     }
@@ -143,8 +143,8 @@ class BieService extends au.org.ala.bie.BieService{
             queryUrl = queryUrl + queryContext
             queryUsedForResults = "q=" + queryParam + queryContext
 
-            log.info("queryUrlOccFilter = " + queryUrl)
-            log.info("queryUsedForResults = " + queryUsedForResults)
+            log.debug("queryUrlOccFilter = " + queryUrl)
+            log.debug("queryUsedForResults = " + queryUsedForResults)
 
             def queryPage = requestObj.start?:0
 
@@ -224,7 +224,7 @@ class BieService extends au.org.ala.bie.BieService{
             }
 
         } else {
-            log.info("Performing general search across all fields")
+            log.debug("Performing general search across all fields")
             def resJson = super.searchBie(requestObj)
             acceptableResults = resJson
         }
@@ -271,7 +271,7 @@ class BieService extends au.org.ala.bie.BieService{
 
         log.debug("acceptableResults = ")
         log.debug(acceptableResults.toString())
-        log.info("queryUsedForResults = " + queryUsedForResults)
+        log.debug("queryUsedForResults = " + queryUsedForResults)
         [acceptableResults, queryUsedForResults]
     }
 
@@ -327,7 +327,7 @@ class BieService extends au.org.ala.bie.BieService{
             String key = (String) keys.next()
             response.get(key)
         } catch (Exception e){
-            log.info "Problem retrieving occurrence information for Taxon: " + guid
+            log.debug "Problem retrieving occurrence information for Taxon: " + guid
             null
         }
     }
