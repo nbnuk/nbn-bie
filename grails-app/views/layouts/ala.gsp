@@ -12,12 +12,6 @@
         <script type="text/javascript">
             var BIE_VARS = { "autocompleteUrl" : "${grailsApplication.config.bie.index.url}/search/auto.jsonp"}
         </script>
-         <script type="text/javascript">
-            // global var to pass GSP vars into JS file
-            SEARCH_CONF = {
-                bieWebServiceUrl: "${grailsApplication.config.bie.index.url}"
-            }
-        </script>
         <script src="/assets/nbn/application.js" ></script>
         <g:layoutHead/>
     </head>

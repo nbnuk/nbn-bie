@@ -41,5 +41,5 @@ $(document).ready(function () {
             window.location.href = '/species/' + ui.item.value;
             return false;
         }
-    }, $(":input#autocompleteResultPage, :input#search, :input#navbar-search"));
+    }, $(":input#autocompleteResultPage, :input#search"));
 });
