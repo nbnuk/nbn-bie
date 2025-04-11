@@ -269,8 +269,8 @@ class BieService extends au.org.ala.bie.BieService{
             result.commonNameHighlighted = commonNameHighlighted.join(", ")
         }
 
-        log.info("acceptableResults = ")
-        log.info(acceptableResults.toString())
+        log.dubug("acceptableResults = ")
+        log.debug(acceptableResults.toString())
         log.info("queryUsedForResults = " + queryUsedForResults)
         [acceptableResults, queryUsedForResults]
     }
