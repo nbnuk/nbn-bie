@@ -13,7 +13,7 @@ buildscript {
     }
 }
 
-version "1.5.2-NBN-0-0-9"
+version "1.5.2-NBN-0-0-10-SNAPSHOT"
 group "uk.org.nbn"
 
 apply plugin:"eclipse"
@@ -97,4 +97,3 @@ assets {
     minifyJs = true
     minifyCss = true
 }
-
