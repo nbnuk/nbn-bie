@@ -8,7 +8,6 @@ branches:
   - master
   - develop
   - FFTF-UPGRADE-1.5.2
-  - conservation-status-ATLASDEV-2138
 before_cache:
 - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
 - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
