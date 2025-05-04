@@ -296,7 +296,6 @@ class SpeciesController extends au.org.ala.bie.SpeciesController{
         taxonDetails.countryBiodiversityListStatuses = [:]
         def keysToRemove = []
         for (entry in taxonDetails.conservationStatuses) {
-            println(entry)
             if (entry.value.dr && entry.value.dr in grailsApplication.config.nbn.countryBiodiversityLists.split(",")) {
                     taxonDetails.countryBiodiversityListStatuses.put(Utils.extractCountryName(entry.key),[ dr: entry.value.dr, status: "Priority Species" ])
                     keysToRemove << entry.key
