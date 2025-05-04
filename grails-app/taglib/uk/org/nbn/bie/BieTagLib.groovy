@@ -4,44 +4,46 @@ class BieTagLib extends au.org.ala.bie.BieTagLib {
     static namespace = 'bie'
 
     def colourForStatus = { attrs ->
-        def status = attrs.status
+        def status = (attrs.status ?: '').toString().trim()
         def colour
 
+        //status may be a collection in which case the string is like [Nationally Rare] so regex needs to take this into
+        // account. An example of this is the multi-value field gbRareAndScarceStatus_m_s
         switch ( status ) {
-            case ~/(?i)Rare.*/:
-                colour = "rare"
+            case ~/(?i).*Nationally\sRare.*/:
+                colour = "nationally-rare"
                 break
-            case ~/(?i)Scarce.*/:
-                colour = "scarce"
+            case ~/(?i).*Nationally\sScarce.*/:
+                colour = "nationally-scarce"
                 break
-            case ~/(?i)Not\sApplicable.*/:
+            case ~/(?i).*Not\sApplicable.*/:
                 colour = "not-applicable"
                 break
-            case ~/(?i)Not\sEvaluated.*/:
+            case ~/(?i).*Not\sEvaluated.*/:
                 colour = "not-evaluated"
                 break
-            case ~/(?i)Data\sDeficient.*/:
+            case ~/(?i).*Data\sDeficient.*/:
                 colour = "data-deficient"
                 break
-            case ~/(?i)Least\sConcern.*/:
+            case ~/(?i).*Least\sConcern.*/:
                 colour = "least-concern"
                 break
-            case ~/(?i)Near\sthreatened.*/:
+            case ~/(?i).*Near\sthreatened.*/:
                 colour = "near-threatened"
                 break
-            case ~/(?i)Vulnerable.*/:
+            case ~/(?i).*Vulnerable.*/:
                 colour = "vulnerable"
                 break
-            case ~/(?i)critically\sendangered.*/:
+            case ~/(?i).*critically\sendangered.*/:
                 colour = "critically-endangered"
                 break
-            case ~/(?i)endangered.*/:
+            case ~/(?i).*endangered.*/:
                 colour = "endangered"
                 break
-            case ~/(?i)Regionally\sExtinct.*/:
+            case ~/(?i).*Regionally\sExtinct.*/:
                 colour = "regionally-extinct"
                 break
-            case ~/(?i)Extinct\sin\sthe\sWild.*/:
+            case ~/(?i).*Extinct\sin\sthe\sWild.*/:
                 colour = "extinct-in-the-wild"
                 break
             case ~/(?i).*extinct.*/:
