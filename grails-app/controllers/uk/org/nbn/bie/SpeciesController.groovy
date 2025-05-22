@@ -3,6 +3,8 @@ package uk.org.nbn.bie
 import groovy.json.JsonSlurper
 import org.apache.commons.lang.WordUtils
 import org.grails.web.json.JSONObject
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 class SpeciesController extends au.org.ala.bie.SpeciesController{
 
@@ -421,6 +423,41 @@ class SpeciesController extends au.org.ala.bie.SpeciesController{
         return pageGroups
     }
 
+    def speciesMap = {
+        def tvk = params.tvk
+        // Logger is already defined at class level as 'log' in the parent ALA SpeciesController
+        // but to be safe and ensure it's available if parent changes:
+        Logger logger = LoggerFactory.getLogger(SpeciesController.class)
+        logger.info("speciesMap called with tvk: ${tvk}")
+
+        if (!tvk) {
+            logger.error("SpeciesMap: TVK parameter is missing.")
+            response.status = 400
+            render(view: '../error', model: [message: "Taxon Version Key (TVK) is required."])
+            return
+        }
+
+        def occurrenceDataResult = bieService.getOccurrencesByTvk(tvk)
+
+        def model = [
+            tvk: tvk,
+            guid: tvk, // Assuming TVK is the GUID for map purposes
+            scientificName: occurrenceDataResult.scientificName,
+            // occurrenceCount is not used in the GSP, but totalRecords is what it represented.
+            // allResultsOccurrenceRecords is used by MAP_CONF
+            allResultsOccurrenceRecords: occurrenceDataResult.totalRecords, 
+            // pageResultsOccurrenceRecords is used by MAP_CONF and displayed in GSP
+            pageResultsOccurrenceRecords: occurrenceDataResult.totalRecords, 
+            // pageResultsOccurrencePresenceRecords is used by MAP_CONF
+            pageResultsOccurrencePresenceRecords: occurrenceDataResult.totalRecords, 
+            pageResultsOccurrenceAbsenceRecords: 0, // Assuming service returns only presence
+            recordsFilter: getRecordsFilter()
+            // occurrenceData (the list of points) is not directly passed to GSP model,
+            // as mapping.common.js fetches it via AJAX using the guid and other params in MAP_CONF
+        ]
+        logger.debug("SpeciesMap: Rendering speciesMap.gsp with model: ${model}")
+        render(view: 'speciesMap', model: model)
+    }
 
     private class ResultsStats{
 

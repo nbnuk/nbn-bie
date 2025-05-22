@@ -3,9 +3,12 @@ package uk.org.nbn.bie
 import grails.converters.JSON
 import au.org.ala.bie.webapp2.SearchRequestParamsDTO
 import org.apache.commons.httpclient.util.URIUtil
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 
 class BieService extends au.org.ala.bie.BieService{
+    private static final Logger log = LoggerFactory.getLogger(BieService.class)
 
     def queryUsedForResults = ""
 
@@ -329,6 +332,90 @@ class BieService extends au.org.ala.bie.BieService{
         } catch (Exception e){
             log.info "Problem retrieving occurrence information for Taxon: " + guid
             null
+        }
+    }
+
+    Map getOccurrencesByTvk(String tvk) {
+        log.info("getOccurrencesByTvk called with tvk: ${tvk}")
+
+        if (!tvk) {
+            log.error("TVK is null or empty")
+            return [occurrences: [], totalRecords: 0, scientificName: ""]
+        }
+
+        def recordsFilter = grailsApplication.config?.biocacheService?.queryContext ?: ""
+        // pageSize can be made configurable if needed
+        def pageSize = grailsApplication.config?.bieService?.occurrencesPageSize ?: 1000 
+
+        def queryParams = [
+            "q=lsid:${URIUtil.encodeWithinQuery(tvk)}",
+            "fl=decimalLatitude,decimalLongitude,scientificName,occurrenceID,dataResourceUid", // Added occurrenceID and dataResourceUid
+            "pageSize=${pageSize}",
+            "fq=-occurrence_status:absent" // Only presence records
+        ]
+
+        if (recordsFilter) {
+            queryParams.add("fq=${URIUtil.encodeWithinQuery(recordsFilter)}")
+        }
+        
+        // Add additional map filter from config if it exists, similar to getOccurrenceCountsForGuid
+        if (grailsApplication.config?.additionalMapFilter) {
+            queryParams.add(URIUtil.encodeWithinQuery(grailsApplication.config.additionalMapFilter).replaceAll("%26","&").replaceAll("%3D","=").replaceAll("%3A",":"))
+        }
+
+        def url = grailsApplication.config.biocacheService.baseURL + '/occurrences/search.json?' + queryParams.join('&')
+        log.info("Querying biocache for occurrences: ${url}")
+
+        try {
+            def jsonResponse = webClientService.get(url)
+            def response = JSON.parse(jsonResponse)
+
+            def occurrencesList = []
+            def scientificName = ""
+            def totalRecords = response.totalRecords ?: 0
+
+            if (response.occurrences && response.occurrences.size() > 0) {
+                scientificName = response.occurrences[0].scientificName ?: "Unknown Species"
+                response.occurrences.each { occ ->
+                    if (occ.decimalLatitude != null && occ.decimalLongitude != null) {
+                        occurrencesList.add([
+                            lat: occ.decimalLatitude, 
+                            lon: occ.decimalLongitude,
+                            occurrenceID: occ.occurrenceID, // Include occurrenceID
+                            dataResourceUid: occ.dataResourceUid // Include dataResourceUid
+                        ])
+                    }
+                }
+            } else {
+                log.warn("No occurrences found for tvk: ${tvk} or occurrences list is empty in response.")
+            }
+            
+            // If scientificName is still empty, try to get it from BIE services
+            if (!scientificName && totalRecords > 0) {
+                 //Attempt to fetch taxon details if scientific name is missing from occurrences
+                try {
+                    def taxonDetails = getTaxonConcept(tvk)
+                    if (taxonDetails?.taxonConcept?.scientificName) {
+                        scientificName = taxonDetails.taxonConcept.scientificName
+                        log.info("Retrieved scientific name from getTaxonConcept: ${scientificName}")
+                    } else {
+                        log.warn("Scientific name also not found via getTaxonConcept for tvk: ${tvk}")
+                    }
+                } catch (Exception e) {
+                    log.error("Error fetching taxon details for scientific name for tvk ${tvk}: ${e.getMessage()}")
+                }
+            }
+
+
+            return [
+                occurrences: occurrencesList,
+                totalRecords: totalRecords,
+                scientificName: scientificName
+            ]
+
+        } catch (Exception e) {
+            log.error("Error fetching or parsing occurrences for tvk ${tvk}: ${e.getMessage()}", e)
+            return [occurrences: [], totalRecords: 0, scientificName: ""]
         }
     }
 }

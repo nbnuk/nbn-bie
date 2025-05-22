@@ -2,6 +2,7 @@
 
 class UrlMappings {
     static mappings = {
+        "/species/map/$tvk"(controller: "species", action: "speciesMap")
         "/$controller/$action?/$id?(.$format)?"{
             constraints {
                 // apply constraints here
