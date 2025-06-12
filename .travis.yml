@@ -8,6 +8,7 @@ branches:
   - master
   - develop
   - FFTF-UPGRADE-1.5.2
+  - FFTF-UPGRADE-1.5.2-PIPELINES
 before_cache:
 - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
 - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
