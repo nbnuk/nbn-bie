@@ -211,7 +211,7 @@ function loadDataProviders(){
         url += "&fq=" + encodeURI(bqc_clean);
     }
 
-    url = url + '&facet=on&facets=data_resource_uid&callback=?';
+    url = url + '&facet=on&facets=data_resource_uid';
 
     var uiUrl = SHOW_CONF.biocacheUrl  +
         '/occurrences/search?q=lsid:' +

@@ -212,7 +212,7 @@ function fitMapToBounds(MAP_CONF) {
             } else if (MAP_CONF.presenceOrAbsence == 'absence') {
                 jsonUrl += "&fq=-occurrence_status:present"
             }
-            jsonUrl += "&callback=?";
+
             $.getJSON(jsonUrl, function(data) {
                 var changed = false;
                 if (data.length == 4 && data[0] != 0 && data[1] != 0) {
