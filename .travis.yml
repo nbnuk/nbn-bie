@@ -7,6 +7,7 @@ branches:
   only:
   - master
   - develop
+  - develop-pipelines
   - FFTF-UPGRADE-1.5.2
   - FFTF-UPGRADE-1.5.2-PIPELINES
 before_cache:
