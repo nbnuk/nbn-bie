@@ -54,65 +54,65 @@ span.iucn.uk{
 span.iucn.nationally-rare,  span.iucn.nationally-scarce{
     background-color:#EDA247;
     border-color:#EDA247;
-    color:#FFEBD2;
+    color:#595d5f;
 }
 
 /*Below taken from https://nc.iucnredlist.org/redlist/resources/files/1646067752-FINAL_IUCN_Red_List_colour_chart.pdf*/
 span.iucn.not-applicable {
     background-color:#C1B5A5;
     border-color:#C1B5A5;
-    color:#FCDDD6;
+    color:#595d5f;
 }
 span.iucn.not-evaluated {
     background-color:#FFFFFF;
-    border-color:#EEEEEE;
-    color:#EEEEEE;
+    border-color:#595d5f;
+    color:#595d5f;
 }
 span.iucn.data-deficient {
     background-color:#D1D1C6;
     border-color:#D1D1C6;
-    color:#F5DAD2;
+    color:#595d5f;
 }
 span.iucn.least-concern {
     background-color:#60C659;
     border-color:#60C659;
-    color:#D8FCD5;
+    color:#595d5f;
 }
 span.iucn.near-threatened {
     background-color:#CCE226;
     border-color:#CCE226;
-    color:#F9FCD8;
+    color:#595d5f;
 }
 span.iucn.vulnerable {
     background-color:#F9E814;
     border-color:#F9E814;
-    color:#FFF9D6;
+    color:#595d5f;
 }
 span.iucn.critically-endangered {
     background-color:#D81E05;
     border-color:#D81E05;
-    color:#FFD9D6;
+    color:#fff;
 }
 span.iucn.endangered {
     background-color:#FC7F3F;
     border-color:#FC7F3F;
-    color:#FFE3D3;
+    color:#fff;
 }
 span.iucn.regionally-extinct {
     background-color:#9B4F96;
     border-color:#9B4F96;
-    color:#F7DDF3;
+    color:#fff;
 }
 span.iucn.extinct-in-the-wild {
     background-color:#542344;
     border-color:#542344;
-    color:#EFCFE5;
+    color:#fff;
 }
 
 span.iucn.extinct {
     background-color:#000000;
     border-color:#000000;
-    color:#c33;
+    color:#fff;
 }
 
 span.iucn.green {
