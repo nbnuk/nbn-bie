@@ -1,4 +1,128 @@
 
+
+/* Conservation status styling */
+span.iucn {
+    width: 150px;
+    /*min-width: 40px;*/
+    /*max-width: 150px;*/
+    padding: 0 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    /*text-overflow: ellipsis;*/
+    /*font-size: 12px;*/
+    margin-right: 10px;
+    border-radius: 8px;
+    color:#fff;
+}
+
+.conservationList li a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+span.iucn.wales{
+    background-color: #e22424;
+    border-color: #e22424;
+    color: #fff;
+}
+
+span.iucn.england{
+    background-color: #1e73be;
+    border-color: #1e73be;
+    color: #fff;
+}
+
+span.iucn.scotland{
+    background-color: #0065BD;
+    border-color: #0065BD;
+    color: #fff;
+}
+
+span.iucn.northern-ireland{
+    background-color: #61116a;
+    border-color: #61116a;
+    color: #fff;
+}
+
+span.iucn.uk{
+    background-color: #1e73be;
+    border-color: #1e73be;
+    color: #fff;
+}
+
+span.iucn.nationally-rare,  span.iucn.nationally-scarce{
+    background-color:#EDA247;
+    border-color:#EDA247;
+    color:#595d5f;
+}
+
+/*Below taken from https://nc.iucnredlist.org/redlist/resources/files/1646067752-FINAL_IUCN_Red_List_colour_chart.pdf*/
+span.iucn.not-applicable {
+    background-color:#C1B5A5;
+    border-color:#C1B5A5;
+    color:#595d5f;
+}
+span.iucn.not-evaluated {
+    background-color:#FFFFFF;
+    border-color:#595d5f;
+    color:#595d5f;
+}
+span.iucn.data-deficient {
+    background-color:#D1D1C6;
+    border-color:#D1D1C6;
+    color:#595d5f;
+}
+span.iucn.least-concern {
+    background-color:#60C659;
+    border-color:#60C659;
+    color:#595d5f;
+}
+span.iucn.near-threatened {
+    background-color:#CCE226;
+    border-color:#CCE226;
+    color:#595d5f;
+}
+span.iucn.vulnerable {
+    background-color:#F9E814;
+    border-color:#F9E814;
+    color:#595d5f;
+}
+span.iucn.critically-endangered {
+    background-color:#D81E05;
+    border-color:#D81E05;
+    color:#fff;
+}
+span.iucn.endangered {
+    background-color:#FC7F3F;
+    border-color:#FC7F3F;
+    color:#fff;
+}
+span.iucn.regionally-extinct {
+    background-color:#9B4F96;
+    border-color:#9B4F96;
+    color:#fff;
+}
+span.iucn.extinct-in-the-wild {
+    background-color:#542344;
+    border-color:#542344;
+    color:#fff;
+}
+
+span.iucn.extinct {
+    background-color:#000000;
+    border-color:#000000;
+    color:#fff;
+}
+
+span.iucn.green {
+    background-color:#005454;
+    border-color:#005454;
+    color:#fff;
+}
+
+/*End red list colour chart*/
+
 /* NBN: align styling with pre-Grails 3 version of BIE */
 
 .pg-header {

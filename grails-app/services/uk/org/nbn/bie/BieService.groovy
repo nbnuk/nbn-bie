@@ -107,115 +107,126 @@ class BieService extends au.org.ala.bie.BieService{
         def queryUrl = grailsApplication.config.bie.index.url + "/search?" + requestObj.getQueryString() +
                 "&facets=" + grailsApplication.config.facets
 
-        //add a query context for BIE - to reduce taxa to a subset
-        if(grailsApplication.config.bieService.queryContext){
-            queryUrl = queryUrl + "&" + URIUtil.encodeWithinQuery(grailsApplication.config.bieService.queryContext).replaceAll("%26","&").replaceAll("%3D","=").replaceAll("%3A",":")  /* URLEncoder.encode: encoding &,= and : breaks these tokens for SOLR */
-        }
-        def queryParam = URIUtil.encodeWithinQuery(requestObj.q).replaceAll("%26","&").replaceAll("%3D","=").replaceAll("%3A",":")
-        queryUrl = queryUrl.replaceAll('"','%22').replaceAll("'","%27")
-
-        //add a query context for biocache - this will influence record counts
-        def queryContext = ""
-        if (!overrideBiocacheContext) {
-            if (grailsApplication.config.biocacheService.queryContext) {
-                //watch out for mutually exclusive conditions between queryContext and occFilter, e.g. if queryContext=occurrence_status:present and occFilter=occurrence_stats:absent then will get zero records returned
-                queryContext = "&bqc=(" + URIUtil.encodeWithinQuery(grailsApplication.config.biocacheService.queryContext).replaceAll("%26","&").replaceAll("%3D","=").replaceAll("%3A",":")
-                if (occFilter) {
-                    queryContext = queryContext + "%20AND%20" + URIUtil.encodeWithinQuery(occFilter).replaceAll("%26","&").replaceAll("%3D","=").replaceAll("%3A",":")
-                }
-                queryContext = queryContext + ")"
-            } else {
-                if (occFilter) {
-                    queryContext = "&bqc=(" + URIUtil.encodeWithinQuery(occFilter).replaceAll("%26","&").replaceAll("%3D","=").replaceAll("%3A",":")
-                }
-            }
-        } else {
-            if (occFilter) {
-                queryContext = "&bqc=(" + URIUtil.encodeWithinQuery(occFilter).replaceAll("%26","&").replaceAll("%3D","=").replaceAll("%3A",":") + ")"
-            }
-        }
-        queryUrl = queryUrl + queryContext
-        queryUsedForResults = "q=" + queryParam + queryContext
-
-        log.info("queryUrlOccFilter = " + queryUrl)
-        log.info("queryUsedForResults = " + queryUsedForResults)
-
-        def queryPage = requestObj.start?:0
-
-        def haveAcceptableResults = false
         def acceptableResults = JSON.parse("{}")
-        def resultsInThisPage = 0
 
-        if (! haveAcceptableResults) {
-            //try accepted, match without authority
-            acceptableResults = searchBieOnAcceptedNameOrTVK(queryUrl, requestObj.q, queryParam, queryPage, "", false, requestObj.includeSynonyms, true)
-            if (acceptableResults?.searchResults) haveAcceptableResults = true
-        }
+        if (requestObj.fq == "idxtype:TAXON") {
+            log.debug("Performing NBN taxon search")
 
-        if (! haveAcceptableResults) {
-            //try synonyms, exact match still
-            def synonymParam = "&fq=scientific_name:%22" + queryParam + "%22"
-            def queryUrlExactMatch = queryUrl + synonymParam //note scientific_name is case-insensitive and has various syntax chars removed for better matching
-            def queryUrlExactMatchWithoutPage = queryUrlExactMatch.replace("start=" + queryPage,"start=0")
-            def json = webClientService.get(queryUrlExactMatchWithoutPage)
-            def resJson = JSON.parse(json)
-            resultsInThisPage = resJson.searchResults?.results?.size()?: 0
-            if (resultsInThisPage > 0) { //what if more than one result?
-                acceptableResults = searchBieOnAcceptedNameOrTVK(queryUrl, requestObj.q, "", queryPage, resJson.searchResults.results[0].acceptedConceptID, false, false, false)
-                if (acceptableResults?.searchResults) haveAcceptableResults = true
+
+            //add a query context for BIE - to reduce taxa to a subset
+            if(grailsApplication.config.bieService.queryContext){
+                queryUrl = queryUrl + "&" + URIUtil.encodeWithinQuery(grailsApplication.config.bieService.queryContext).replaceAll("%26","&").replaceAll("%3D","=").replaceAll("%3A",":")  /* URLEncoder.encode: encoding &,= and : breaks these tokens for SOLR */
+            }
+            def queryParam = URIUtil.encodeWithinQuery(requestObj.q).replaceAll("%26","&").replaceAll("%3D","=").replaceAll("%3A",":")
+            queryUrl = queryUrl.replaceAll('"','%22').replaceAll("'","%27")
+
+            //add a query context for biocache - this will influence record counts
+            def queryContext = ""
+            if (!overrideBiocacheContext) {
+                if (grailsApplication.config.biocacheService.queryContext) {
+                    //watch out for mutually exclusive conditions between queryContext and occFilter, e.g. if queryContext=occurrence_status:present and occFilter=occurrence_stats:absent then will get zero records returned
+                    queryContext = "&bqc=(" + URIUtil.encodeWithinQuery(grailsApplication.config.biocacheService.queryContext).replaceAll("%26","&").replaceAll("%3D","=").replaceAll("%3A",":")
+                    if (occFilter) {
+                        queryContext = queryContext + "%20AND%20" + URIUtil.encodeWithinQuery(occFilter).replaceAll("%26","&").replaceAll("%3D","=").replaceAll("%3A",":")
+                    }
+                    queryContext = queryContext + ")"
+                } else {
+                    if (occFilter) {
+                        queryContext = "&bqc=(" + URIUtil.encodeWithinQuery(occFilter).replaceAll("%26","&").replaceAll("%3D","=").replaceAll("%3A",":")
+                    }
+                }
             } else {
-                queryUrlExactMatch = queryUrl + "&fq=name_complete:%22" + queryParam + "%22";
-                queryUrlExactMatchWithoutPage = queryUrlExactMatch.replace("start=" + queryPage,"start=0")
-                json = webClientService.get(queryUrlExactMatchWithoutPage)
-                resJson = JSON.parse(json)
+                if (occFilter) {
+                    queryContext = "&bqc=(" + URIUtil.encodeWithinQuery(occFilter).replaceAll("%26","&").replaceAll("%3D","=").replaceAll("%3A",":") + ")"
+                }
+            }
+            queryUrl = queryUrl + queryContext
+            queryUsedForResults = "q=" + queryParam + queryContext
+
+            log.info("queryUrlOccFilter = " + queryUrl)
+            log.info("queryUsedForResults = " + queryUsedForResults)
+
+            def queryPage = requestObj.start?:0
+
+            def haveAcceptableResults = false
+            def resultsInThisPage = 0
+
+            if (! haveAcceptableResults) {
+                //try accepted, match without authority
+                acceptableResults = searchBieOnAcceptedNameOrTVK(queryUrl, requestObj.q, queryParam, queryPage, "", false, requestObj.includeSynonyms, true)
+                if (acceptableResults?.searchResults) haveAcceptableResults = true
+            }
+
+            if (! haveAcceptableResults) {
+                //try synonyms, exact match still
+                def synonymParam = "&fq=scientific_name:%22" + queryParam + "%22"
+                def queryUrlExactMatch = queryUrl + synonymParam //note scientific_name is case-insensitive and has various syntax chars removed for better matching
+                def queryUrlExactMatchWithoutPage = queryUrlExactMatch.replace("start=" + queryPage,"start=0")
+                def json = webClientService.get(queryUrlExactMatchWithoutPage)
+                def resJson = JSON.parse(json)
                 resultsInThisPage = resJson.searchResults?.results?.size()?: 0
                 if (resultsInThisPage > 0) { //what if more than one result?
                     acceptableResults = searchBieOnAcceptedNameOrTVK(queryUrl, requestObj.q, "", queryPage, resJson.searchResults.results[0].acceptedConceptID, false, false, false)
                     if (acceptableResults?.searchResults) haveAcceptableResults = true
                 } else {
-                    //no synonym match
+                    queryUrlExactMatch = queryUrl + "&fq=name_complete:%22" + queryParam + "%22";
+                    queryUrlExactMatchWithoutPage = queryUrlExactMatch.replace("start=" + queryPage,"start=0")
+                    json = webClientService.get(queryUrlExactMatchWithoutPage)
+                    resJson = JSON.parse(json)
+                    resultsInThisPage = resJson.searchResults?.results?.size()?: 0
+                    if (resultsInThisPage > 0) { //what if more than one result?
+                        acceptableResults = searchBieOnAcceptedNameOrTVK(queryUrl, requestObj.q, "", queryPage, resJson.searchResults.results[0].acceptedConceptID, false, false, false)
+                        if (acceptableResults?.searchResults) haveAcceptableResults = true
+                    } else {
+                        //no synonym match
+                    }
                 }
             }
-        }
 
-        if (! haveAcceptableResults) {
-            def commonParam = "&fq=taxonomicStatus:accepted&fq=commonName:%22" + queryParam + "%22"
-            def queryUrlExactCommonName = queryUrl + commonParam
-            def queryUrlExactCommonNameWithoutPage = queryUrlExactCommonName.replace("start=" + queryPage,"start=0")
-            def json = webClientService.get(queryUrlExactCommonNameWithoutPage)
-            def resJson = JSON.parse(json)
-            resultsInThisPage = resJson.searchResults?.results?.size()?: 0
-            if (resultsInThisPage > 0) {
-                json = webClientService.get(queryUrlExactCommonName)
-                acceptableResults = JSON.parse(json)
-                queryUsedForResults = "q=" + queryParam + commonParam
-                haveAcceptableResults = true
+            if (! haveAcceptableResults) {
+                def commonParam = "&fq=taxonomicStatus:accepted&fq=commonName:%22" + queryParam + "%22"
+                def queryUrlExactCommonName = queryUrl + commonParam
+                def queryUrlExactCommonNameWithoutPage = queryUrlExactCommonName.replace("start=" + queryPage,"start=0")
+                def json = webClientService.get(queryUrlExactCommonNameWithoutPage)
+                def resJson = JSON.parse(json)
+                resultsInThisPage = resJson.searchResults?.results?.size()?: 0
+                if (resultsInThisPage > 0) {
+                    json = webClientService.get(queryUrlExactCommonName)
+                    acceptableResults = JSON.parse(json)
+                    queryUsedForResults = "q=" + queryParam + commonParam
+                    haveAcceptableResults = true
+                }
             }
-        }
 
 
-        if (! haveAcceptableResults) {
-            def acceptedParam = "&fq=taxonomicStatus:accepted"
-            def queryUrlAccepted = queryUrl + acceptedParam
-            def queryUrlAcceptedWithoutPage = queryUrlAccepted.replace("start=" + queryPage,"start=0")
-            def json = webClientService.get(queryUrlAcceptedWithoutPage)
-            def resJson = JSON.parse(json)
-            resultsInThisPage = resJson.searchResults?.results?.size()?: 0
-            if (resultsInThisPage > 0) {
-                json = webClientService.get(queryUrlAccepted)
-                acceptableResults = JSON.parse(json)
-                queryUsedForResults = "q=" + queryParam + acceptedParam
-                haveAcceptableResults = true
+            if (! haveAcceptableResults) {
+                def acceptedParam = "&fq=taxonomicStatus:accepted"
+                def queryUrlAccepted = queryUrl + acceptedParam
+                def queryUrlAcceptedWithoutPage = queryUrlAccepted.replace("start=" + queryPage,"start=0")
+                def json = webClientService.get(queryUrlAcceptedWithoutPage)
+                def resJson = JSON.parse(json)
+                resultsInThisPage = resJson.searchResults?.results?.size()?: 0
+                if (resultsInThisPage > 0) {
+                    json = webClientService.get(queryUrlAccepted)
+                    acceptableResults = JSON.parse(json)
+                    queryUsedForResults = "q=" + queryParam + acceptedParam
+                    haveAcceptableResults = true
+                }
             }
-        }
 
-        if (! haveAcceptableResults) {
-            //give up?
-            def json = webClientService.get(queryUrl)
-            def resJson = JSON.parse(json)
-            //TODO: need to change sort order to best-match desc maybe?
+            if (! haveAcceptableResults) {
+                //give up?
+                def json = webClientService.get(queryUrl)
+                def resJson = JSON.parse(json)
+                //TODO: need to change sort order to best-match desc maybe?
+                acceptableResults = resJson
+                haveAcceptableResults = true //well, maybe
+            }
+
+        } else {
+            log.debug("Performing general search across all fields")
+            def resJson = super.searchBie(requestObj)
             acceptableResults = resJson
-            haveAcceptableResults = true //well, maybe
         }
 
         //some horrible code to build fake-highlights into the synonym list

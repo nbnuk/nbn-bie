@@ -260,6 +260,8 @@ class SpeciesController extends au.org.ala.bie.SpeciesController{
 
             taxonDetails.standardCommonNames = taxonDetails.commonNames
 
+            nbnReconfigureConservationStatuses(taxonDetails)
+
             render(view: 'show', model: [
                     tc: taxonDetails,
                     synonymOccurrenceRecords: synonymAllResultsOccs,
@@ -288,6 +290,18 @@ class SpeciesController extends au.org.ala.bie.SpeciesController{
             ])
 
         }
+    }
+
+    private def nbnReconfigureConservationStatuses(taxonDetails) {
+        taxonDetails.countryBiodiversityListStatuses = [:]
+        def keysToRemove = []
+        for (entry in taxonDetails.conservationStatuses) {
+            if (entry.value.dr && entry.value.dr in grailsApplication.config.nbn.countryBiodiversityLists.split(",")) {
+                    taxonDetails.countryBiodiversityListStatuses.put(Utils.extractCountryName(entry.key),[ dr: entry.value.dr, status: "Priority Species" ])
+                    keysToRemove << entry.key
+            }
+        }
+        keysToRemove.each { taxonDetails.conservationStatuses.remove(it) }
     }
 
     def occurrences(){
