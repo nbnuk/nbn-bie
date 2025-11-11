@@ -109,7 +109,7 @@ class BieService extends au.org.ala.bie.BieService{
 
         def acceptableResults = JSON.parse("{}")
 
-        if (requestObj.fq == "idxtype:TAXON") {
+        if (requestObj.fq.any { it =~ /idxtype:("?TAXON"?)/ }) {
             log.debug("Performing NBN taxon search")
 
 
