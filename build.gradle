@@ -14,7 +14,7 @@ buildscript {
 }
 
 
-version "1.5.2-NBN-0-0-13-SNAPSHOT"
+version "1.5.2-NBN-0-0-13"
 
 group "uk.org.nbn"
 
