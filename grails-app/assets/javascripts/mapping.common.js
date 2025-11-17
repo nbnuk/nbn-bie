@@ -38,14 +38,49 @@ function checkIE() {
 function loadTheMap (MAP_CONF) {
     if (MAP_CONF.showResultsMap) {
         MAP_CONF.resultsToMapJSON = JSON.parse($('<textarea/>').html(MAP_CONF.resultsToMap).text());
+        if (typeof $ !== "undefined" && $.widget && $.ui && $.ui.tabs) {
+            $.widget("ui.tabs", $.ui.tabs, {
+                _addClass: function (element, classes, extra) {
+                    // list of all unwanted jQuery UI classes
+                    var blocked = [
+                        "ui-widget",
+                        "ui-widget-content",
+                        "ui-widget-header",
+                        "ui-corner-all",
+                        "ui-corner-top",
+                        "ui-helper-reset",
+                        "ui-helper-clearfix",
+                        "ui-state-default",
+                        "ui-tabs-active",
+                        "ui-state-active",
+                        "ui-state-hover",
+                        "ui-state-focus"
+                    ];
+
+                    if (classes) {
+                        classes = classes.split(/\s+/).filter(function (k) {
+                            return blocked.indexOf(k) === -1;
+                        }).join(" ");
+                    }
+
+                    if (extra) {
+                        extra = extra.split(/\s+/).filter(function (k) {
+                            return blocked.indexOf(k) === -1;
+                        }).join(" ");
+                    }
+
+                    if (typeof this._super === "function") {
+                        this._super(element, classes, extra);
+                    }
+                }
+            });
+        }
 
         var firstMapShow = true;
         var isIE = checkIE();
         //leaflet maps don't like being loaded in a div that isn't being shown, this fixes the position of the map
         $(function () {
             if (MAP_CONF.mapType == 'search') {
-                //NBN this stylesheet interferes with the tabs and was previously excluded from inns build
-                $("link[href*='/wales/commonui-bs3-v2/css/autocomplete.min.css']").attr('disabled', true);
 
                 $("#tabs").tabs({
                     beforeActivate: function (event, ui) {
@@ -61,8 +96,6 @@ function loadTheMap (MAP_CONF) {
                             }
                             fitMapToBounds(MAP_CONF);
                         }
-
-                        $(this).removeClass("ui-tabs-active ui-state-active");
                     }
                 });
             }
