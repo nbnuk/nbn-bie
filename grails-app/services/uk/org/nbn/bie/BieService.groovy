@@ -324,6 +324,11 @@ class BieService extends au.org.ala.bie.BieService{
         try{
             def response = JSON.parse(json)
             Iterator<?> keys = response.keys();
+
+            if (!keys.hasNext()) {
+                return 0;
+            }
+
             String key = (String) keys.next()
             response.get(key)
         } catch (Exception e){
