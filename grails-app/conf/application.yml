@@ -196,3 +196,6 @@ literature:
         url: https://api.trove.nla.gov.au/result?key=fvt2q0qinduian5d&zone=book&encoding=json
 show:
     tabs: overview,gallery,names,classification,records,literature,sequences,data-partners
+
+sitemap:
+  enabled: true

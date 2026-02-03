@@ -13,6 +13,7 @@ class UrlMappings {
             "/"(view: "/index")
         }
         "/occurrences"(controller: "species", action: "occurrences") // RR added
+        "/sitemap($idx)?.xml"(controller: "sitemap", action: "index")
         "500"(view:'/error')
         "404"(view:'/notFound')
     }
